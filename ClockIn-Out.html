@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* สไตล์ทั้งหมดยังคงเหมือนเดิม */
         body {
             font-family: 'Noto Sans Thai', sans-serif;
             display: flex;
@@ -85,12 +86,6 @@
             display: block; /* ปรับให้อยู่ในบรรทัดใหม่ */
         }
         
-        #statusMessage {
-            margin-top: 15px;
-            color: green;
-            font-size: 1.1em; /* ปรับขนาดฟอนต์ให้ใหญ่ขึ้น */
-        }
-        
         @media (max-width: 768px) {
             .logo {
                 width: 150px; /* ปรับขนาดโลโก้ให้เล็กลง */
@@ -108,7 +103,7 @@
     <img class="logo" src="https://tigerwhiteline.github.io/BackOffice/logo.png" alt="โลโก้ร้าน">
     <h1 class="title">STAFF CHECKING</h1>
     <div class="container">
-        <form id="attendanceForm" onsubmit="event.preventDefault(); checkAttendance();">
+        <form id="attendanceForm">
             <div class="form-row">
                 <label for="date">วันที่:</label>
                 <input type="date" id="date" required />
@@ -121,12 +116,6 @@
             </div>
             
             <button type="submit">ตรวจสอบ</button>
-
-            <!-- เพิ่มพื้นที่สำหรับแสดงข้อความและปุ่ม -->
-            <div id="statusMessage"></div>
-            <button id="clockInBtn" style="display:none;" onclick="clockIn()">Clock In</button>
-            <button id="clockOutBtn" style="display:none;" onclick="clockOut()">Clock Out</button>
-            <button id="addMoreBtn" style="display:none;" onclick="addMore()">ลงชื่อเพิ่มเติม</button>
         </form>
     </div>
 
@@ -143,53 +132,6 @@
                 });
             })
             .catch(error => console.error('Error:', error));
-
-        function checkAttendance() {
-    const date = document.getElementById('date').value;
-    const staffName = document.getElementById('staffName').value;
-
-    // แปลงวันที่ให้ตรงกับรูปแบบใน Google Sheets
-    const formattedDate = new Date(date).toISOString().split('T')[0];
-
-    fetch(`https://script.google.com/macros/s/AKfycbyJriZguSIQ0gs8aqc1gNHQcd2afFtlk21FPT9BmhLOE_tKzm43hbsF_WnqxbYI1cCA/exec?date=${formattedDate}&staffName=${staffName}`)
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('clockInBtn').style.display = 'none';
-            document.getElementById('clockOutBtn').style.display = 'none';
-            document.getElementById('addMoreBtn').style.display = 'none';
-            document.getElementById('statusMessage').innerText = "";
-
-            if (!data.exists) {
-                document.getElementById('statusMessage').innerText = "ลงชื่อเข้างาน";
-                document.getElementById('clockInBtn').style.display = 'block';
-            } else if (data.exists && !data.clockIn) {
-                document.getElementById('statusMessage').innerText = "ลงชื่อเข้างาน";
-                document.getElementById('clockInBtn').style.display = 'block';
-            } else if (data.exists && data.clockIn && !data.clockOut) {
-                document.getElementById('statusMessage').innerText = "ลงชื่อออกงาน";
-                document.getElementById('clockOutBtn').style.display = 'block';
-            } else if (data.exists && data.clockIn && data.clockOut) {
-                document.getElementById('statusMessage').innerText = "Clock In/Out สำเร็จ";
-                document.getElementById('addMoreBtn').style.display = 'block';
-            }
-        })
-        .catch(error => console.error('Error:', error));
-}
-
-        function clockIn() {
-            // เพิ่มโค้ดสำหรับลงชื่อเข้างาน
-            alert("Clock In สำเร็จ!");
-        }
-
-        function clockOut() {
-            // เพิ่มโค้ดสำหรับลงชื่อออกงาน
-            alert("Clock Out สำเร็จ!");
-        }
-
-        function addMore() {
-            // เพิ่มโค้ดสำหรับลงชื่อเพิ่มเติม
-            alert("ลงชื่อเพิ่มเติม");
-        }
     </script>
 </body>
 </html>
