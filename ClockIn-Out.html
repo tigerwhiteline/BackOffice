@@ -37,9 +37,9 @@
             max-width: 300px; /* ปรับความกว้างให้เหมาะสมกับหน้าจอ */
             width: 100%;
             padding: 20px;
-            background-color: #fff;
+            background-color: transparent; /* ปรับสีแบล็กกราวเป็นสีโปร่งใส */
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: none; /* ปิดการใช้งาน box-shadow */
         }
         
         .form-row {
@@ -57,7 +57,8 @@
         .form-row input, .form-row select {
             width: 70%;
             padding: 10px;
-            font-size: 1em; /* ปรับขนาดฟอนต์ให้เล็กลง */
+            font-size: 1em; /* ปรับขนาดฟอนต์ให้เหมือนกับคำถาม */
+            font-family: 'Noto Sans Thai', sans-serif; /* ปรับรูปแบบฟอนต์ให้เหมือนกับคำถาม */
             border: 1px solid #ccc;
             border-radius: 4px;
         }
