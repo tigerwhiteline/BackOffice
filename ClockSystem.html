@@ -13,7 +13,7 @@
             const data = Object.fromEntries(formData.entries());
 
             try {
-                const response = await fetch('<GOOGLE_APPS_SCRIPT_URL>', {
+                const response = await fetch('https://script.google.com/macros/s/AKfycbwu8A0-Au-xS_8dk9Y4WNDp-98srFVvexbZ4jF-e0EYXLZlDKQ3O2EnrOxlDyKY4nUj/exec', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
