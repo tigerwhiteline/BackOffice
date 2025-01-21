@@ -22,7 +22,7 @@
         .logo {
             width: 250px; /* ปรับขนาดโลโก้ */
             height: auto;
-            margin-bottom: 10px;
+            margin-bottom: 0px; /* ปรับระยะห่างให้ใกล้หัวข้อ */
         }
         
         .title {
@@ -50,7 +50,7 @@
         }
         
         .form-row label {
-            font-size: 1em; /* ปรับขนาดฟอนต์ให้เล็กลง */
+            font-size: 1.1em; /* ปรับขนาดฟอนต์ให้ใหญ่ขึ้น */
             margin-right: 10px;
             width: 30%; /* ปรับความกว้างของ label */
         }
@@ -58,7 +58,7 @@
         .form-row input, .form-row select {
             width: 60%; /* ปรับความกว้างของ input และ select */
             padding: 10px;
-            font-size: 1em; /* ปรับขนาดฟอนต์ให้เหมือนกับคำถาม */
+            font-size: 1.1em; /* ปรับขนาดฟอนต์ให้ใหญ่ขึ้น */
             font-family: 'Noto Sans Thai', sans-serif; /* ปรับรูปแบบฟอนต์ให้เหมือนกับคำถาม */
             border: 1px solid #ccc;
             border-radius: 4px;
@@ -70,7 +70,7 @@
             color: white;
             border: none;
             padding: 10px;
-            font-size: 1em; /* ปรับขนาดฟอนต์ให้เล็กลง */
+            font-size: 1.1em; /* ปรับขนาดฟอนต์ให้ใหญ่ขึ้น */
             cursor: pointer;
             border-radius: 4px;
             margin: 10px;
@@ -88,7 +88,7 @@
         #statusMessage {
             margin-top: 15px;
             color: green;
-            font-size: 1em; /* ปรับขนาดฟอนต์ให้เล็กลง */
+            font-size: 1.1em; /* ปรับขนาดฟอนต์ให้ใหญ่ขึ้น */
         }
         
         @media (max-width: 768px) {
@@ -96,10 +96,10 @@
                 width: 150px; /* ปรับขนาดโลโก้ให้เล็กลง */
             }
             .form-row input, .form-row select {
-                font-size: 0.8em; /* ปรับขนาดฟอนต์ให้เล็กลง */
+                font-size: 0.9em; /* ปรับขนาดฟอนต์ให้เล็กลง */
             }
             button {
-                font-size: 0.8em; /* ปรับขนาดฟอนต์ให้เล็กลง */
+                font-size: 0.9em; /* ปรับขนาดฟอนต์ให้เล็กลง */
             }
         }
     </style>
@@ -121,10 +121,6 @@
                     <option value="ปอนด์">ปอนด์</option>
                 </select>
             </div>
-            <div class="form-row">
-                <label for="pinCode">รหัสผ่าน:</label>
-                <input type="number" id="pinCode" required maxlength="4" pattern="[0-9]{4}" />
-            </div>
             
             <button type="submit">ตรวจสอบ</button>
 
@@ -137,15 +133,14 @@
         function checkAttendance() {
             const date = document.getElementById('date').value;
             const staffName = document.getElementById('staffName').value;
-            const pinCode = document.getElementById('pinCode').value;
 
-            // ตัวอย่างการตรวจสอบ PIN CODE
-            if (staffName === "เกื้อ" && pinCode !== "4321") {
-                document.getElementById('statusMessage').innerText = "PIN CODE ไม่ถูกต้อง";
-            } else if (staffName === "ปอนด์" && pinCode !== "1234") {
-                document.getElementById('statusMessage').innerText = "PIN CODE ไม่ถูกต้อง";
-            } else {
+            // ตัวอย่างการตรวจสอบข้อมูล
+            if (staffName === "เกื้อ") {
                 document.getElementById('statusMessage').innerText = "ข้อมูลถูกต้อง";
+            } else if (staffName === "ปอนด์") {
+                document.getElementById('statusMessage').innerText = "ข้อมูลถูกต้อง";
+            } else {
+                document.getElementById('statusMessage').innerText = "กรุณาเลือกชื่อพนักงาน";
             }
         }
     </script>
