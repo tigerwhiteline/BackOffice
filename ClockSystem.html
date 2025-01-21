@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clock In/Out</title>
+    <script>
+        // ฟังก์ชันสำหรับดึงตำแหน่ง GPS
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    position => {
+                        document.getElementById('gps').value = `${position.coords.latitude}, ${position.coords.longitude}`;
+                    },
+                    error => {
+                        alert('ไม่สามารถดึงตำแหน่ง GPS ได้: ' + error.message);
+                    }
+                );
+            } else {
+                alert("อุปกรณ์ของคุณไม่รองรับการดึงตำแหน่ง GPS");
+            }
+        }
+
+        // ฟังก์ชันสำหรับส่งฟอร์ม
+        async function submitForm(event) {
+            event.preventDefault();
+
+            const formData = new FormData(document.getElementById('clockForm'));
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('<GOOGLE_APPS_SCRIPT_URL>', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    alert('บันทึกสำเร็จ!');
+                } else {
+                    alert('เกิดข้อผิดพลาด: ' + result.message);
+                }
+            } catch (error) {
+                alert('เกิดข้อผิดพลาด: ' + error.message);
+            }
+        }
+
+        window.onload = getLocation;
+    </script>
+</head>
+<body>
+    <h1>Clock In/Out</h1>
+    <form id="clockForm" onsubmit="submitForm(event)">
+        <!-- วันที่ -->
+        <label for="date">วันที่:</label>
+        <input type="date" id="date" name="date" value="<%= new Date().toISOString().split('T')[0] %>" required><br><br>
+
+        <!-- ชื่อพนักงาน -->
+        <label for="employeeName">ชื่อพนักงาน:</label>
+        <input type="text" id="employeeName" name="employeeName" required><br><br>
+
+        <!-- GPS -->
+        <label for="gps">ตำแหน่ง GPS:</label>
+        <input type="text" id="gps" name="gps" readonly required><br><br>
+
+        <!-- อัปโหลดรูปภาพ -->
+        <label for="photo">ถ่ายรูป:</label>
+        <input type="file" id="photo" name="photo" accept="image/*" capture="environment" required><br><br>
+
+        <!-- ปุ่มส่งข้อมูล -->
+        <button type="submit">บันทึกเวลา</button>
+    </form>
+</body>
+</html>
