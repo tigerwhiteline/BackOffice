@@ -5,22 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clock In/Out</title>
     <script>
-        // ฟังก์ชันสำหรับดึงตำแหน่ง GPS
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    position => {
-                        document.getElementById('gps').value = `${position.coords.latitude}, ${position.coords.longitude}`;
-                    },
-                    error => {
-                        alert('ไม่สามารถดึงตำแหน่ง GPS ได้: ' + error.message);
-                    }
-                );
-            } else {
-                alert("อุปกรณ์ของคุณไม่รองรับการดึงตำแหน่ง GPS");
-            }
-        }
-
         // ฟังก์ชันสำหรับส่งฟอร์ม
         async function submitForm(event) {
             event.preventDefault();
@@ -40,7 +24,7 @@
                 const result = await response.json();
 
                 if (result.success) {
-                    alert('บันทึกสำเร็จ!');
+                    alert('ตรวจสอบสำเร็จ!');
                 } else {
                     alert('เกิดข้อผิดพลาด: ' + result.message);
                 }
@@ -48,12 +32,10 @@
                 alert('เกิดข้อผิดพลาด: ' + error.message);
             }
         }
-
-        window.onload = getLocation;
     </script>
 </head>
 <body>
-    <h1>Clock In/Out</h1>
+    <h1>ตรวจสอบ Clock In/Out</h1>
     <form id="clockForm" onsubmit="submitForm(event)">
         <!-- วันที่ -->
         <label for="date">วันที่:</label>
@@ -61,18 +43,15 @@
 
         <!-- ชื่อพนักงาน -->
         <label for="employeeName">ชื่อพนักงาน:</label>
-        <input type="text" id="employeeName" name="employeeName" required><br><br>
-
-        <!-- GPS -->
-        <label for="gps">ตำแหน่ง GPS:</label>
-        <input type="text" id="gps" name="gps" readonly required><br><br>
-
-        <!-- อัปโหลดรูปภาพ -->
-        <label for="photo">ถ่ายรูป:</label>
-        <input type="file" id="photo" name="photo" accept="image/*" capture="environment" required><br><br>
+        <select id="employeeName" name="employeeName" required>
+            <option value="">-- เลือกชื่อพนักงาน --</option>
+            <option value="พนักงาน1">พนักงาน1</option>
+            <option value="พนักงาน2">พนักงาน2</option>
+            <option value="พนักงาน3">พนักงาน3</option>
+        </select><br><br>
 
         <!-- ปุ่มส่งข้อมูล -->
-        <button type="submit">บันทึกเวลา</button>
+        <button type="submit">ตรวจสอบ</button>
     </form>
 </body>
 </html>
