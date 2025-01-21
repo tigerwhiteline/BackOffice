@@ -113,34 +113,39 @@
             document.getElementById('loadingStatus').style.display = 'none';
 
             if (distance <= radius) {
-                document.getElementById('message').innerText = 'พิกัดถูกต้อง กำลังเข้าสู่ระบบ';
-            } else {
-                document.getElementById('message').innerText = 'พิกัดของคุณไม่ถูกต้อง';
-            }
-        }, error => {
-            console.error('Error:', error);
-            // ซ่อนแอนิเมชั่น loading
-            document.getElementById('loadingStatus').style.display = 'none';
-            document.getElementById('message').innerText = 'เกิดข้อผิดพลาดในการตรวจสอบพิกัด';
-        });
+        document.getElementById('message').innerText = 'พิกัดถูกต้อง กำลังเข้าสู่ระบบ';
+        
+        // หน่วงเวลา 3 วินาทีแล้วไปหน้าแบบฟอร์ม
+        setTimeout(() => {
+            window.location.href = 'https://tigerwhiteline.github.io/BackOffice/ClockIn-Out.html';
+        }, 3000);
+    } else {
+        document.getElementById('message').innerText = 'พิกัดของคุณไม่ถูกต้อง';
+    }
+}, error => {
+    console.error('Error:', error);
+    // ซ่อนแอนิเมชั่น loading
+    document.getElementById('loadingStatus').style.display = 'none';
+    document.getElementById('message').innerText = 'เกิดข้อผิดพลาดในการตรวจสอบพิกัด';
+});
 
-        // ฟังก์ชันคำนวณระยะห่าง
-        function getDistance(lat1, lon1, lat2, lon2) {
-            const R = 6371; // กิโลเมตร
-            const dLat = deg2rad(lat2 - lat1);
-            const dLon = deg2rad(lon2 - lon1);
-            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-                Math.sin(dLon / 2) * Math.sin(dLon / 2);
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-            const distance = R * c * 1000; // เมตร
-            return distance;
-        }
+// ฟังก์ชันคำนวณระยะห่าง
+function getDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371; // กิโลเมตร
+    const dLat = deg2rad(lat2 - lat1);
+    const dLon = deg2rad(lon2 - lon1);
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c * 1000; // เมตร
+    return distance;
+}
 
-        // ฟังก์ชันแปลงองศาเป็นเรเดียน
-        function deg2rad(deg) {
-            return deg * (Math.PI / 180);
-        }
+// ฟังก์ชันแปลงองศาเป็นเรเดียน
+function deg2rad(deg) {
+    return deg * (Math.PI / 180);
+}
     </script>
 </body>
 </html>
