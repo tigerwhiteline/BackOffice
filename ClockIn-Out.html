@@ -149,7 +149,12 @@ document.getElementById('attendanceForm').addEventListener('submit', function(ev
   const staffName = document.getElementById('staffName').value;
 
   fetch(`https://script.google.com/macros/s/AKfycbyJriZguSIQ0gs8aqc1gNHQcd2afFtlk21FPT9BmhLOE_tKzm43hbsF_WnqxbYI1cCA/exec?action=checkAttendance&date=${date}&staffName=${staffName}`)
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
     .then(data => {
       const statusMessage = document.getElementById('statusMessage');
       statusMessage.innerText = "";
@@ -164,7 +169,11 @@ document.getElementById('attendanceForm').addEventListener('submit', function(ev
         statusMessage.innerText = "Clock In/Out เสร็จสมบูรณ์";
       }
     })
-    .catch(error => console.error('Error:', error));
+    .catch(error => {
+      console.error('Error:', error);
+      const statusMessage = document.getElementById('statusMessage');
+      statusMessage.innerText = "เกิดข้อผิดพลาดในการตรวจสอบ";
+    });
 });
     </script>
 </body>
