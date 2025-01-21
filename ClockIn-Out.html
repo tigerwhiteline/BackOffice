@@ -1,118 +1,119 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <title>ลงชื่อเข้า-ออกงาน</title>
+    <title>TIGER WHITE LINE | WORK RECORD</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;700&display=swap" rel="stylesheet">
-    body {
-    font-family: 'Noto Sans Thai', sans-serif;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #f7f7f7;
-    color: #333;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-.logo {
-    width: 150px; /* ปรับขนาดโลโก้ */
-    height: auto;
-    margin-bottom: 20px;
-}
-
-.container {
-    text-align: center;
-    max-width: 300px; /* ปรับความกว้างให้เหมาะสมกับหน้าจอ */
-    width: 100%;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: none; /* ลบแบล็กกราว */
-}
-
-label {
-    font-size: 1.2em; /* ปรับขนาดฟอนต์ให้เล็กลง */
-    margin-bottom: 10px; /* ลดระยะห่าง */
-}
-
-input, select {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    margin-bottom: 15px;
-    font-size: 1.2em;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-button {
-    background-color: #bb463C; /* สีแดงโทน */
-    color: white;
-    border: none;
-    padding: 10px;
-    font-size: 1.2em;
-    cursor: pointer;
-    border-radius: 4px;
-    margin: 10px;
-}
-
-button:hover {
-    background-color: #a83c3c; /* สีแดงเข้มขึ้นเมื่อโฮเวอร์ */
-}
-
-#statusMessage {
-    margin-top: 15px;
-    color: green;
-    font-size: 1.2em;
-}
-
-#loading {
-    display: none;
-    font-size: 1em; /* ปรับขนาดฟอนต์ให้เล็กลง */
-    color: #000; /* เปลี่ยนสีเป็นสีดำ */
-    margin-top: 20px; /* เพิ่มช่องว่าง */
-}
-
-.progress {
-    width: 80px;
-    height: 16px;
-    border-radius: 12px;
-    color: #bb463C;
-    border: 1.5px solid;
-    position: relative;
-    margin: 0 auto;
-}
-
-.progress::before {
-    content: "";
-    position: absolute;
-    margin: 1.5px;
-    inset: 0 100% 0 0;
-    border-radius: inherit;
-    background: currentColor;
-    animation: progress-pf82op 2s infinite;
-}
-
-@keyframes progress-pf82op {
-    100% {
-        inset: 0;
-    }
-}
-
-@media (max-width: 768px) {
-    .logo {
-        width: 100px; /* ปรับขนาดโลโก้ให้เล็กลง */
-    }
-    .container {
-        max-width: 250px; /* ปรับความกว้างให้เหมาะสมกับหน้าจอเล็ก */
-    }
-}
-
+    <style>
+        body {
+            font-family: 'Noto Sans Thai', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f7f7f7;
+            color: #333;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        .logo {
+            width: 150px; /* ปรับขนาดโลโก้ */
+            height: auto;
+            margin-bottom: 20px;
+        }
+        
+        .container {
+            text-align: center;
+            max-width: 300px; /* ปรับความกว้างให้เหมาะสมกับหน้าจอ */
+            width: 100%;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        label {
+            font-size: 1.2em; /* ปรับขนาดฟอนต์ให้เล็กลง */
+            margin-bottom: 10px; /* ลดระยะห่าง */
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        button {
+            background-color: #bb463C; /* สีแดงโทน */
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 4px;
+            margin: 10px;
+        }
+        
+        button:hover {
+            background-color: #a83c3c; /* สีแดงเข้มขึ้นเมื่อโฮเวอร์ */
+        }
+        
+        #statusMessage {
+            margin-top: 15px;
+            color: green;
+            font-size: 1.2em;
+        }
+        
+        #loading {
+            display: none;
+            font-size: 1em; /* ปรับขนาดฟอนต์ให้เล็กลง */
+            color: #000; /* เปลี่ยนสีเป็นสีดำ */
+            margin-top: 20px; /* เพิ่มช่องว่าง */
+        }
+        
+        .progress {
+            width: 80px;
+            height: 16px;
+            border-radius: 12px;
+            color: #bb463C;
+            border: 1.5px solid;
+            position: relative;
+            margin: 0 auto;
+        }
+        
+        .progress::before {
+            content: "";
+            position: absolute;
+            margin: 1.5px;
+            inset: 0 100% 0 0;
+            border-radius: inherit;
+            background: currentColor;
+            animation: progress-pf82op 2s infinite;
+        }
+        
+        @keyframes progress-pf82op {
+            100% {
+                inset: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .logo {
+                width: 100px; /* ปรับขนาดโลโก้ให้เล็กลง */
+            }
+            .container {
+                max-width: 250px; /* ปรับความกว้างให้เหมาะสมกับหน้าจอเล็ก */
+            }
+        }
+    </style>
 </head>
 <body>
     <img class="logo" src="https://tigerwhiteline.github.io/BackOffice/logo.png" alt="โลโก้ร้าน">
