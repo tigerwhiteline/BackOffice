@@ -1,4 +1,171 @@
-<script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ระบบ Clock In/Out</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Noto Sans Thai', sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f7f7f7;
+      color: #333;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    
+    .logo {
+      width: 100px; /* ปรับขนาดโลโก้ */
+      height: auto;
+      margin-bottom: 20px;
+    }
+    
+    .container {
+      text-align: center;
+      max-width: 90%; /* ปรับความกว้างให้เหมาะสมกับหน้าจอ */
+      width: 100%;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    h1 {
+      font-size: 2.5em; /* ปรับขนาดฟอนต์ให้ใหญ่ขึ้น */
+      margin-bottom: 15px; /* ลดระยะห่าง */
+      color: #bb463C; /* เปลี่ยนสีเป็นสีแดงโทน */
+    }
+    
+    label {
+      font-size: 1.5em; /* ปรับขนาดฟอนต์ให้ใหญ่ขึ้น */
+      margin-bottom: 10px; /* ลดระยะห่าง */
+    }
+    
+    input, select {
+      width: 100%;
+      padding: 15px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      font-size: 1.5em;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    
+    button {
+      background-color: #bb463C; /* สีแดงโทน */
+      color: white;
+      border: none;
+      padding: 15px;
+      font-size: 1.5em;
+      cursor: pointer;
+      border-radius: 4px;
+      margin: 10px;
+    }
+    
+    button:hover {
+      background-color: #a83c3c; /* สีแดงเข้มขึ้นเมื่อโฮเวอร์ */
+    }
+    
+    #statusMessage {
+      margin-top: 15px;
+      color: green;
+      font-size: 1.5em;
+    }
+    
+    #loading {
+      display: none;
+      font-size: 1em; /* ปรับขนาดฟอนต์ให้เล็กลง */
+      color: #000; /* เปลี่ยนสีเป็นสีดำ */
+      margin-top: 20px; /* เพิ่มช่องว่าง */
+    }
+    
+    .progress {
+      width: 134.4px;
+      height: 24.6px;
+      border-radius: 22.4px;
+      color: #bb463C;
+      border: 2.2px solid;
+      position: relative;
+      margin: 0 auto;
+    }
+    
+    .progress::before {
+      content: "";
+      position: absolute;
+      margin: 2.2px;
+      inset: 0 100% 0 0;
+      border-radius: inherit;
+      background: currentColor;
+      animation: progress-pf82op 2s infinite;
+    }
+    
+    @keyframes progress-pf82op {
+      100% {
+        inset: 0;
+      }
+    }
+    
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2em; /* ปรับขนาดฟอนต์ให้เหมาะสมกับหน้าจอเล็ก */
+      }
+
+      input, select {
+        font-size: 1.2em; /* ปรับขนาดฟอนต์ให้เหมาะสมกับหน้าจอเล็ก */
+      }
+
+      button {
+        font-size: 1.2em; /* ปรับขนาดฟอนต์ให้เหมาะสมกับหน้าจอเล็ก */
+      }
+    }
+  </style>
+</head>
+<body>
+  <img class="logo" src="https://scontent.fbkk5-8.fna.fbcdn.net/v/t39.30808-6/418298829_122104826162172825_3396877490774848383_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeEUFAHji_yuiEThEJNcxUuC1aRCmOtS36TVpEKY61LfpC-UrvO0D69pWvYqhBRf6o8&_nc_ohc=KimUphtgXV0Q7kNvgErKhup&_nc_oc=Adicv5U_1Pr2rM9lvRiNAGJ_2Ff6SlW_wCYLXFi-I7O1GiYex-9KIq93msceL4VN9jA&_nc_zt=23&_nc_ht=scontent.fbkk5-8.fna&_nc_gid=A8qERTkgxEHDyrs2iVCd1Hy&oh=00_AYB0bKei4fehaj_wfZ6li36lCrCDPSdL7dfXFB9tTu4DKA&oe=67952C3F" alt="โลโก้ร้าน">
+  
+  <div class="container">
+    <h1>ระบบ Clock In/Out</h1>
+    
+    <form id="clockForm" onsubmit="event.preventDefault(); checkAttendance();">
+      <label for="date">วันที่:</label>
+      <input type="date" id="date" required />
+
+      <label for="staffName">ชื่อพนักงาน:</label>
+      <select id="staffName" required>
+        <option value="" disabled selected>เลือกชื่อพนักงาน</option>
+        <option value="เกื้อ">เกื้อ</option>
+        <option value="ปอนด์">ปอนด์</option>
+      </select>
+
+      <button type="submit">ตรวจสอบ</button>
+
+      <div class="button-container">
+        <button id="clockInBtn" style="display:none;" onclick="clockIn()">Clock In</button>
+        <button id="clockOutBtn" style="display:none;" onclick="clockOut()">Clock Out</button>
+      </div>
+
+      <!-- เพิ่มพื้นที่สำหรับแสดงข้อความ -->
+      <div id="statusMessage"></div>
+      <div id="loading">
+        <div class="progress"></div>
+        กำลังตรวจสอบ...
+      </div>
+    </form>
+  </div>
+
+ <script>
   const apiUrl = "https://script.google.com/macros/s/AKfycbyCImszIzNymu3Zp1ofGI1LAv07tKT3sVmuRg6vCLgyBwS6Vb_Bc9EccS4HiPXRU9yl/exec";
 
   async function checkAttendance() {
@@ -46,3 +213,6 @@
     clockInOrOut("out");
   }
 </script>
+</body>
+</html>
+
