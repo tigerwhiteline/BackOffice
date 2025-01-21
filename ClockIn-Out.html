@@ -6,102 +6,129 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;700&display=swap" rel="stylesheet">
     <style>
-body {
-    font-family: 'Noto Sans Thai', sans-serif;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; /* ปรับจาก center เป็น flex-start */
-    align-items: center;
-    margin: 0;
-    background-color: #f7f7f7;
-    color: #333;
-    padding: 20px;
-    box-sizing: border-box;
-}
-.title {
-    font-size: 2.5em; /* ปรับขนาดฟอนต์ให้ใหญ่ขึ้น */
-    font-weight: bold; /* ตัวหนา */
-    color: #bb463C; /* เปลี่ยนสีเป็นสีแดงโทน */
-    margin-bottom: 15px; /* ลดระยะห่าง */
-}
-.logo {
-    width: 250px; /* ปรับขนาดโลโก้ */
-    height: auto;
-    margin-bottom: 10px;
-}
-
-label {
-    font-size: 1.5em; /* ปรับขนาดฟอนต์ให้ใหญ่ขึ้น */
-    margin-bottom: 10px; /* ลดระยะห่าง */
-}
-
-input, select {
-    width: 100%;
-    padding: 15px;
-    margin-top: 5px;
-    margin-bottom: 15px;
-    font-size: 1.5em;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-button {
-    background-color: #bb463C; /* สีแดงโทน */
-    color: white;
-    border: none;
-    padding: 15px;
-    font-size: 1.5em;
-    cursor: pointer;
-    border-radius: 4px;
-    margin: 10px;
-}
-
-button:hover {
-    background-color: #a83c3c; /* สีแดงเข้มขึ้นเมื่อโฮเวอร์ */
-}
-
-#statusMessage {
-    margin-top: 15px;
-    color: green;
-    font-size: 1.5em;
-}
-
-@media (max-width: 768px) {
-    .logo {
-        width: 150px; /* ปรับขนาดโลโก้ให้เล็กลง */
-    }
-    input, select {
-        font-size: 1.2em; /* ปรับขนาดฟอนต์ให้เล็กลง */
-    }
-    button {
-        font-size: 1.2em; /* ปรับขนาดฟอนต์ให้เล็กลง */
-    }
-}
-
-</style>
+        body {
+            font-family: 'Noto Sans Thai', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* ปรับจาก center เป็น flex-start */
+            align-items: center;
+            margin: 0;
+            background-color: #f7f7f7;
+            color: #333;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        .logo {
+            width: 250px; /* ปรับขนาดโลโก้ */
+            height: auto;
+            margin-bottom: 10px;
+        }
+        
+        .title {
+            font-size: 2.5em; /* ปรับขนาดฟอนต์ให้ใหญ่ขึ้น */
+            font-weight: bold; /* ตัวหนา */
+            color: #bb463C; /* เปลี่ยนสีเป็นสีแดงโทน */
+            margin-bottom: 15px; /* ลดระยะห่าง */
+        }
+        
+        .container {
+            text-align: center;
+            max-width: 300px; /* ปรับความกว้างให้เหมาะสมกับหน้าจอ */
+            width: 100%;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-row {
+            display: flex;
+            justify-content: flex-start; /* ปรับจาก space-between เป็น flex-start */
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .form-row label {
+            font-size: 1em; /* ปรับขนาดฟอนต์ให้เล็กลง */
+            margin-right: 10px;
+        }
+        
+        .form-row input, .form-row select {
+            width: 70%;
+            padding: 10px;
+            font-size: 1em; /* ปรับขนาดฟอนต์ให้เล็กลง */
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        button {
+            background-color: #bb463C; /* สีแดงโทน */
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 1em; /* ปรับขนาดฟอนต์ให้เล็กลง */
+            cursor: pointer;
+            border-radius: 4px;
+            margin: 10px;
+        }
+        
+        button:hover {
+            background-color: #a83c3c; /* สีแดงเข้มขึ้นเมื่อโฮเวอร์ */
+        }
+        
+        button[type="submit"] {
+            margin: 0 auto; /* ปรับให้อยู่ตรงกลาง */
+            display: block; /* ปรับให้อยู่ในบรรทัดใหม่ */
+        }
+        
+        #statusMessage {
+            margin-top: 15px;
+            color: green;
+            font-size: 1em; /* ปรับขนาดฟอนต์ให้เล็กลง */
+        }
+        
+        @media (max-width: 768px) {
+            .logo {
+                width: 150px; /* ปรับขนาดโลโก้ให้เล็กลง */
+            }
+            .form-row input, .form-row select {
+                font-size: 0.8em; /* ปรับขนาดฟอนต์ให้เล็กลง */
+            }
+            button {
+                font-size: 0.8em; /* ปรับขนาดฟอนต์ให้เล็กลง */
+            }
+        }
+    </style>
 </head>
 <body>
     <img class="logo" src="https://tigerwhiteline.github.io/BackOffice/logo.png" alt="โลโก้ร้าน">
     <h1 class="title">STAFF CHECKING</h1>
-    <form id="attendanceForm" onsubmit="event.preventDefault(); checkAttendance();">
-        <label for="date">วันที่:</label>
-        <input type="date" id="date" required />
-        
-        <label for="staffName">ชื่อพนักงาน:</label>
-        <select id="staffName" required>
-            <option value="" disabled selected>เลือกชื่อพนักงาน</option>
-            <option value="เกื้อ">เกื้อ</option>
-            <option value="ปอนด์">ปอนด์</option>
-        </select>
+    <div class="container">
+        <form id="attendanceForm" onsubmit="event.preventDefault(); checkAttendance();">
+            <div class="form-row">
+                <label for="date">วันที่:</label>
+                <input type="date" id="date" required />
+            </div>
+            <div class="form-row">
+                <label for="staffName">ชื่อพนักงาน:</label>
+                <select id="staffName" required>
+                    <option value="" disabled selected>เลือกชื่อพนักงาน</option>
+                    <option value="เกื้อ">เกื้อ</option>
+                    <option value="ปอนด์">ปอนด์</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <label for="pinCode">รหัสผ่าน:</label>
+                <input type="number" id="pinCode" required maxlength="4" pattern="[0-9]{4}" />
+            </div>
+            
+            <button type="submit">ตรวจสอบ</button>
 
-        <label for="pinCode">PIN CODE:</label>
-        <input type="number" id="pinCode" required maxlength="4" pattern="[0-9]{4}" />
-
-        <button type="submit">ตรวจสอบ</button>
-
-        <!-- เพิ่มพื้นที่สำหรับแสดงข้อความ -->
-        <div id="statusMessage"></div>
-    </form>
+            <!-- เพิ่มพื้นที่สำหรับแสดงข้อความ -->
+            <div id="statusMessage"></div>
+        </form>
+    </div>
 
     <script>
         function checkAttendance() {
