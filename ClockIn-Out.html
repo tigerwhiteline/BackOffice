@@ -116,9 +116,7 @@
             <div class="form-row">
                 <label for="staffName">ชื่อพนักงาน:</label>
                 <select id="staffName" required>
-                    <option value="" disabled selected>เลือกชื่อพนักงาน</option>
-                    <option value="เกื้อ">เกื้อ</option>
-                    <option value="ปอนด์">ปอนด์</option>
+                    <option value="" disabled selected>กำลังโหลด...</option>
                 </select>
             </div>
             
@@ -130,14 +128,25 @@
     </div>
 
     <script>
+        // ดึงข้อมูลจาก Google Apps Script
+        fetch('https://script.google.com/macros/s/AKfycbyJriZguSIQ0gs8aqc1gNHQcd2afFtlk21FPT9BmhLOE_tKzm43hbsF_WnqxbYI1cCA/exec')
+            .then(response => response.json())
+            .then(data => {
+                const staffNameSelect = document.getElementById('staffName');
+                staffNameSelect.innerHTML = '';
+                staffNameSelect.innerHTML += '<option value="" disabled selected>เลือกชื่อพนักงาน</option>';
+                data.staffNames.forEach(name => {
+                    staffNameSelect.innerHTML += `<option value="${name}">${name}</option>`;
+                });
+            })
+            .catch(error => console.error('Error:', error));
+
         function checkAttendance() {
             const date = document.getElementById('date').value;
             const staffName = document.getElementById('staffName').value;
 
             // ตัวอย่างการตรวจสอบข้อมูล
-            if (staffName === "เกื้อ") {
-                document.getElementById('statusMessage').innerText = "ข้อมูลถูกต้อง";
-            } else if (staffName === "ปอนด์") {
+            if (staffName !== "") {
                 document.getElementById('statusMessage').innerText = "ข้อมูลถูกต้อง";
             } else {
                 document.getElementById('statusMessage').innerText = "กรุณาเลือกชื่อพนักงาน";
