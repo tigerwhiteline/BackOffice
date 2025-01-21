@@ -116,6 +116,7 @@
             </div>
             
             <button type="submit">ตรวจสอบ</button>
+            <div id="statusMessage"></div>
         </form>
     </div>
 
@@ -129,7 +130,7 @@
         currentDateInput.value = `${year}-${month}-${day}`;
 
         // ดึงชื่อพนักงาน
-fetch('https://script.google.com/macros/s/AKfycbwk_3Nf5kDwN1KxjuWHp9NAlporJEJAy0deBaK96-CtVypJlNeFUO8Iq_AbZ9iNV-UI/exec?action=getStaffNames')
+fetch('https://script.google.com/macros/s/AKfycbyJriZguSIQ0gs8aqc1gNHQcd2afFtlk21FPT9BmhLOE_tKzm43hbsF_WnqxbYI1cCA/exec?action=getStaffNames')
   .then(response => response.json())
   .then(data => {
     const staffNameSelect = document.getElementById('staffName');
@@ -147,7 +148,7 @@ document.getElementById('attendanceForm').addEventListener('submit', function(ev
   const date = document.getElementById('currentDate').value;
   const staffName = document.getElementById('staffName').value;
 
-  fetch(`https://script.google.com/macros/s/AKfycbwk_3Nf5kDwN1KxjuWHp9NAlporJEJAy0deBaK96-CtVypJlNeFUO8Iq_AbZ9iNV-UI/exec?action=checkAttendance&date=${date}&staffName=${staffName}`)
+  fetch(`https://script.google.com/macros/s/AKfycbyJriZguSIQ0gs8aqc1gNHQcd2afFtlk21FPT9BmhLOE_tKzm43hbsF_WnqxbYI1cCA/exec?action=checkAttendance&date=${date}&staffName=${staffName}`)
     .then(response => response.json())
     .then(data => {
       const statusMessage = document.getElementById('statusMessage');
@@ -165,7 +166,6 @@ document.getElementById('attendanceForm').addEventListener('submit', function(ev
     })
     .catch(error => console.error('Error:', error));
 });
-
     </script>
 </body>
 </html>
