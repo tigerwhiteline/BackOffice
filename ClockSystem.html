@@ -1,57 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clock In/Out</title>
-    <script>
-        // ฟังก์ชันสำหรับส่งฟอร์ม
-        async function submitForm(event) {
-            event.preventDefault();
-
-            const formData = new FormData(document.getElementById('clockForm'));
-            const data = Object.fromEntries(formData.entries());
-
-            try {
-                const response = await fetch('https://script.google.com/macros/s/AKfycbzKq-BbqrZS0CuUdlecgZIMo7phwtrtDGSH-nWv-mHP2wh6rY2U77k--9gDZxSOEyvp/exec', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
-
-                const result = await response.json();
-
-                if (result.success) {
-                    alert('ตรวจสอบสำเร็จ!');
-                } else {
-                    alert('เกิดข้อผิดพลาด: ' + result.message);
-                }
-            } catch (error) {
-                alert('เกิดข้อผิดพลาด: ' + error.message);
-            }
-        }
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clock In/Out System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f9f9f9;
+    }
+    form {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    label {
+      font-size: 14px;
+      font-weight: bold;
+      margin-top: 10px;
+      display: block;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
 </head>
 <body>
-    <h1>ตรวจสอบ Clock In/Out</h1>
-    <form id="clockForm" onsubmit="submitForm(event)">
-        <!-- วันที่ -->
-        <label for="date">วันที่:</label>
-        <input type="date" id="date" name="date" value="<%= new Date().toISOString().split('T')[0] %>" required><br><br>
+  <h1 style="text-align: center;">Clock In/Out System</h1>
+  <form id="clockForm" onsubmit="event.preventDefault(); sendDataToBackend();">
+    <label for="date">วันที่:</label>
+    <input type="date" id="date" required />
 
-        <!-- ชื่อพนักงาน -->
-        <label for="employeeName">ชื่อพนักงาน:</label>
-        <select id="employeeName" name="employeeName" required>
-            <option value="">-- เลือกชื่อพนักงาน --</option>
-            <option value="พนักงาน1">พนักงาน1</option>
-            <option value="พนักงาน2">พนักงาน2</option>
-            <option value="พนักงาน3">พนักงาน3</option>
-        </select><br><br>
+    <label for="staffName">ชื่อพนักงาน:</label>
+    <select id="staffName" required>
+      <option value="" disabled selected>เลือกชื่อพนักงาน</option>
+      <option value="พนักงานคนที่ 1">พนักงานคนที่ 1</option>
+      <option value="พนักงานคนที่ 2">พนักงานคนที่ 2</option>
+      <option value="พนักงานคนที่ 3">พนักงานคนที่ 3</option>
+    </select>
 
-        <!-- ปุ่มส่งข้อมูล -->
-        <button type="submit">ตรวจสอบ</button>
-    </form>
+    <button type="submit">ส่งข้อมูล</button>
+  </form>
+
+  <script>
+    async function sendDataToBackend() {
+      const apiUrl = "https://script.google.com/macros/s/AKfycbzKq-BbqrZS0CuUdlecgZIMo7phwtrtDGSH-nWv-mHP2wh6rY2U77k--9gDZxSOEyvp/exec"; // แทนที่ YOUR_WEB_APP_ID ด้วย Web App ID จริง
+
+      const date = document.getElementById("date").value;
+      const staffName = document.getElementById("staffName").value;
+
+      try {
+        const response = await fetch(apiUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ date, employeeName: staffName }),
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          alert("สำเร็จ: " + JSON.stringify(result.data, null, 2));
+        } else {
+          alert("ล้มเหลว: " + result.message);
+        }
+      } catch (error) {
+        alert("เกิดข้อผิดพลาด: " + error.message);
+      }
+    }
+  </script>
 </body>
 </html>
