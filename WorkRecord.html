@@ -90,9 +90,9 @@
         navigator.geolocation.getCurrentPosition(position => {
             const userLat = position.coords.latitude;
             const userLong = position.coords.longitude;
-            const storeLat = 18.78848567822315;
-            const storeLong = 100.7778824473296;
-            const radius = 100; // เมตร
+            const storeLat = 18.78093688888478; 
+            const storeLong = 100.74660735424656;
+            const radius = 50; // เมตร
 
             // คำนวณระยะห่าง
             const distance = getDistance(userLat, userLong, storeLat, storeLong);
