@@ -1,43 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Sheet Integration</title>
-</head>
-<body>
-    <h1>Data from Google Sheet</h1>
-    <div id="data"></div>
+<script>
+  const apiUrl = "YOUR_GOOGLE_SCRIPT_WEB_APP_URL";
 
-    <script>
-        // URL ของ Google Sheet JSON
-        const sheetURL = "https://docs.google.com/spreadsheets/d/1N0im3cIxpEM4vd7JlyIt1OXQ076t5xqCwKQnD0qXYk4/gviz/tq?tqx=out:json";
+  async function checkAttendance() {
+    const date = document.getElementById('date').value;
+    const staffName = document.getElementById('staffName').value;
 
-        fetch(sheetURL)
-            .then(response => response.text())
-            .then(data => {
-                const jsonData = JSON.parse(data.substr(47).slice(0, -2)); // แปลงข้อมูลจาก JSON
-                const rows = jsonData.table.rows;
+    document.getElementById('loading').style.display = 'block';
 
-                // แสดงข้อมูลใน HTML
-                let output = "<table border='1'><tr>";
-                jsonData.table.cols.forEach(col => {
-                    output += `<th>${col.label}</th>`;
-                });
-                output += "</tr>";
+    const response = await fetch(`${apiUrl}?action=checkAttendance&date=${date}&staffName=${staffName}`);
+    const result = await response.json();
 
-                rows.forEach(row => {
-                    output += "<tr>";
-                    row.c.forEach(cell => {
-                        output += `<td>${cell ? cell.v : ''}</td>`;
-                    });
-                    output += "</tr>";
-                });
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('clockInBtn').style.display = result.exists && !result.clockIn ? 'block' : 'none';
+    document.getElementById('clockOutBtn').style.display = result.exists && !result.clockOut ? 'block' : 'none';
 
-                output += "</table>";
-                document.getElementById("data").innerHTML = output;
-            })
-            .catch(error => console.error("Error fetching data: ", error));
-    </script>
-</body>
-</html>
+    document.getElementById('statusMessage').innerText = result.exists
+      ? result.clockIn
+        ? result.clockOut
+          ? "ลงชื่อเข้าและออกเรียบร้อยแล้ว"
+          : "กรุณาลงชื่อออกงาน"
+        : "กรุณาลงชื่อเข้างาน"
+      : "ไม่มีข้อมูล กรุณาลงชื่อเข้างาน";
+  }
+
+  async function clockInOrOut(type) {
+    const date = document.getElementById('date').value;
+    const staffName = document.getElementById('staffName').value;
+
+    const response = await fetch(`${apiUrl}?action=recordAttendance&type=${type}&date=${date}&staffName=${staffName}`, {
+      method: 'POST',
+    });
+    const result = await response.json();
+
+    if (result.success) {
+      alert(type === 'in' ? 'Clock In สำเร็จ!' : 'Clock Out สำเร็จ!');
+      checkAttendance();
+    }
+  }
+
+  function clockIn() {
+    clockInOrOut("in");
+  }
+
+  function clockOut() {
+    clockInOrOut("out");
+  }
+</script>
