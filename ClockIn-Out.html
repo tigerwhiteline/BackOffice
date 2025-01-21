@@ -105,8 +105,8 @@
     <div class="container">
         <form id="attendanceForm">
             <div class="form-row">
-                <label for="date">วันที่:</label>
-                <input type="date" id="date" required />
+                <label for="currentDate">วันที่:</label>
+                <input type="text" id="currentDate" readonly />
             </div>
             <div class="form-row">
                 <label for="staffName">ชื่อพนักงาน:</label>
@@ -120,6 +120,14 @@
     </div>
 
     <script>
+        // แสดงวันที่ปัจจุบัน
+        const currentDateInput = document.getElementById('currentDate');
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = (today.getMonth() + 1).toString().padStart(2, '0');
+        const day = today.getDate().toString().padStart(2, '0');
+        currentDateInput.value = `${year}-${month}-${day}`;
+
         // ดึงข้อมูลจาก Google Apps Script
         fetch('https://script.google.com/macros/s/AKfycbyJriZguSIQ0gs8aqc1gNHQcd2afFtlk21FPT9BmhLOE_tKzm43hbsF_WnqxbYI1cCA/exec')
             .then(response => response.json())
