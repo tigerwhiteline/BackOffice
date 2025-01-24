@@ -204,47 +204,61 @@ HTML : <!DOCTYPE html>
     <script>
         document.getElementById('current-date').value = new Date().toLocaleDateString();
 
-        // ดึงข้อมูลชื่อพนักงานจาก Google Apps Script และแสดงใน dropdown
-        function loadStaffNames() {
-            google.script.run.withSuccessHandler(function(names) {
-                const staffSelect = document.getElementById('staff');
-                staffSelect.innerHTML = '<option value="">-- เลือกพนักงาน --</option>'; // ลบ option เดิมออก
-                names.forEach(name => {
-                    const option = document.createElement('option');
-                    option.value = name;
-                    option.textContent = name;
-                    staffSelect.appendChild(option);
-                });
-            }).withFailureHandler(function(error) {
-                alert('เกิดข้อผิดพลาดในการโหลดข้อมูล: ' + error.message);
-            }).getStaffNames(); // เรียกใช้ฟังก์ชันที่ดึงข้อมูลชื่อพนักงานจาก Apps Script
-        }
-
+        // ดึงข้อมูลชื่อพนักงานจาก Google Apps Script Web App และแสดงใน dropdown
+function loadStaffNames() {
+    fetch('https://script.google.com/macros/s/AKfycbzgQ--l4rloOT1m_3ENh9s9xrGYKLzyo1LX-GU861Ko9YHa20bW0U6a7e7t9r2hkU0q/exec', {
+        method: 'GET',
+    })
+    .then(response => response.json())
+    .then(names => {
+        const staffSelect = document.getElementById('staff');
+        staffSelect.innerHTML = '<option value="">-- เลือกพนักงาน --</option>'; // ลบ option เดิมออก
+        names.forEach(name => {
+            const option = document.createElement('option');
+            option.value = name;
+            option.textContent = name;
+            staffSelect.appendChild(option);
+        });
+    })
+    .catch(error => {
+        alert('เกิดข้อผิดพลาดในการโหลดข้อมูล: ' + error.message);
+    });
+}
         // เรียกใช้ฟังก์ชัน loadStaffNames เมื่อเริ่มหน้า
         loadStaffNames();
 
-        function checkStaff() {
-            const date = document.getElementById('current-date').value;
-            const staffName = document.getElementById('staff').value;
+        // เช็คสถานะการเข้าออกงาน
+function checkStaff() {
+    const date = document.getElementById('current-date').value;
+    const staffName = document.getElementById('staff').value;
 
-            if (!staffName) {
-                alert('กรุณาเลือกชื่อพนักงาน');
-                return;
-            }
+    if (!staffName) {
+        alert('กรุณาเลือกชื่อพนักงาน');
+        return;
+    }
 
-            document.getElementById('loading-progress').style.display = 'block';
-            document.getElementById('result-message').textContent = '';
-            document.getElementById('action-button').innerHTML = '';
+    document.getElementById('loading-progress').style.display = 'block';
+    document.getElementById('result-message').textContent = '';
+    document.getElementById('action-button').innerHTML = '';
 
-            google.script.run.withSuccessHandler(function(response) {
-                document.getElementById('loading-progress').style.display = 'none';
-                const resultDiv = document.getElementById('result-message');
-                const actionDiv = document.getElementById('action-button');
+    // ส่งข้อมูลไปยัง Google Apps Script Web App ด้วย fetch
+    fetch('https://script.google.com/macros/s/AKfycbzgQ--l4rloOT1m_3ENh9s9xrGYKLzyo1LX-GU861Ko9YHa20bW0U6a7e7t9r2hkU0q/exec', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ date, staffName })
+    })
+    .then(response => response.json())
+    .then(response => {
+        document.getElementById('loading-progress').style.display = 'none';
+        const resultDiv = document.getElementById('result-message');
+        const actionDiv = document.getElementById('action-button');
 
-                resultDiv.textContent = response.message;
-                actionDiv.innerHTML = '';
+        resultDiv.textContent = response.message;
+        actionDiv.innerHTML = '';
 
-                // เช็คข้อความสถานะที่ได้จากระบบ
+        // เช็คข้อความสถานะที่ได้จากระบบ
         if (response.message === "กรุณา Clock In" || response.message === "กรุณา Clock Out") {
             // ถ้าเป็น "กรุณา Clock In" หรือ "กรุณา Clock Out" ให้แสดงกล้อง
             initializeCamera();
@@ -252,8 +266,11 @@ HTML : <!DOCTYPE html>
             // ถ้าค่าอื่นๆ ให้ซ่อนกล้อง
             document.getElementById('camera-section').style.display = 'none';
         }
-            }).checkAttendance(date, staffName);
-        }
+    })
+    .catch(error => {
+        alert('เกิดข้อผิดพลาดในการเช็คข้อมูล: ' + error.message);
+    });
+}
 
         let videoStream = null;
 
