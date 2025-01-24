@@ -205,7 +205,7 @@
 
         // ดึงข้อมูลชื่อพนักงานจาก Google Apps Script Web App และแสดงใน dropdown
 function loadStaffNames() {
-    fetch('https://script.google.com/macros/s/AKfycbzSb5B-dREIZ7j1vqm0pMxGmDLXyGqoTzq8ku1FNS_Js2Tc3WiXcWx2H-EBobO3S1zb/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbxlCRXsr-6hvp3CDbr1LbVmbmUsQrK-6yQ0r9wIwmrfjbphOCVS-2oTiWJSZ5fZdfrE/exec', {
         method: 'GET',
     })
     .then(response => response.json())
@@ -241,7 +241,7 @@ function checkStaff() {
     document.getElementById('action-button').innerHTML = '';
 
     // ส่งข้อมูลไปยัง Google Apps Script Web App ด้วย fetch
-    fetch('https://script.google.com/macros/s/AKfycbzSb5B-dREIZ7j1vqm0pMxGmDLXyGqoTzq8ku1FNS_Js2Tc3WiXcWx2H-EBobO3S1zb/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbxlCRXsr-6hvp3CDbr1LbVmbmUsQrK-6yQ0r9wIwmrfjbphOCVS-2oTiWJSZ5fZdfrE/exec', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
