@@ -1,0 +1,383 @@
+
+HTML : <!DOCTYPE html>
+<html lang="th">
+<head>
+    <title>TIGER WHITE LINE | WORK RECORD</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans Thai', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            margin: 0;
+            background-color: #f7f7f7;
+            color: #333;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .logo {
+            width: 250px;
+            height: auto;
+            margin-bottom: 0px;
+        }
+        .title {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #bb463C;
+            margin-bottom: 15px;
+        }
+        .container {
+            text-align: center;
+            max-width: 300px;
+            width: 100%;
+            padding: 20px;
+            background-color: transparent;
+            border-radius: 8px;
+            box-shadow: none;
+        }
+        .form-row {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .form-row label {
+            font-size: 1.1em;
+            margin-right: 10px;
+            width: 30%;
+        }
+        .form-row input, .form-row select {
+            width: 60%;
+            padding: 10px;
+            font-size: 1.1em;
+            font-family: 'Noto Sans Thai', sans-serif;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            height: 40px;
+        }
+        button {
+            background-color: #bb463C;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+            border-radius: 4px;
+            margin: 10px;
+        }
+        button:hover {
+            background-color: #a83c3c;
+        }
+        button[type="submit"] {
+            margin: 0 auto;
+            display: block;
+        }
+        @media (max-width: 768px) {
+            .logo {
+                width: 150px;
+            }
+            .form-row input, .form-row select {
+                font-size: 0.9em;
+            }
+            button {
+                font-size: 0.9em;
+            }
+        }
+        .progress {
+            width: 134.4px;
+            height: 24.6px;
+            border-radius: 22.4px;
+            color: #bb463C;
+            border: 2.2px solid;
+            position: relative;
+            margin: 0 auto;
+            display: none;
+        }
+        .progress::before {
+            content: "";
+            position: absolute;
+            margin: 2.2px;
+            inset: 0 100% 0 0;
+            border-radius: inherit;
+            background: currentColor;
+            animation: progress-pf82op 2s infinite;
+        }
+        @keyframes progress-pf82op {
+            100% {
+                inset: 0;
+            }
+        }
+
+        #submit-button:hover {
+    background-color: #a83c3c; /* สีเข้มขึ้นเมื่อ hover */
+    
+}
+    #submit-button {
+    background-color: #a83c3c; /* สีเข้มขึ้นเมื่อ hover */
+    
+}
+        
+
+    </style>
+</head>
+<body>
+    <img class="logo" src="https://tigerwhiteline.github.io/BackOffice/logo.png" alt="Logo">
+    <div class="title">STAFF CHECKING</div>
+    <div class="container">
+        <div class="form-row">
+            <label>วันที่:</label>
+            <input type="text" id="current-date" readonly>
+        </div>
+        <div class="form-row">
+            <label>ชื่อพนักงาน:</label>
+            <select id="staff">
+                <option value="">-- เลือกพนักงาน --</option>
+            </select>
+        </div>
+        <button onclick="checkStaff()">ตรวจสอบ</button>
+        <div class="progress" id="loading-progress"></div>
+        <div id="result-message" style="margin-top: 20px; font-size: 1.1em;"></div>
+        <div id="action-button" style="margin-top: 10px;"></div>
+    </div>
+
+    <div id="camera-section" style="display: none; margin-top: 20px; position: relative; max-width: 500px;">
+    <video id="camera-stream" autoplay playsinline style="width: 100%; max-width: 500px; border-radius: 10px;"></video>
+    <button id="capture-button" style="
+        position: absolute; 
+        bottom: 20px; 
+        left: 50%; 
+        transform: translateX(-50%);
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: #bb463C;
+        color: white;
+        border: none;
+        font-size: 1.2em;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease, background-color 0.2s ease;
+    ">
+        📸
+    </button>
+    <canvas id="snapshot" style="display: none;"></canvas>
+    <img id="captured-image" style="display: none; width: 100%; max-width: 500px; border-radius: 10px;" 
+    alt="Captured">
+
+    <!-- เพิ่ม flex container สำหรับข้อความและปุ่ม -->
+    <div style="text-align: center; margin-top: 10px;">
+        <!-- ข้อความแสดงวันที่/เวลา และพิกัด -->
+        <p id="location-info" style="font-size: 0.9em; color: #555; margin-top: 10px;"></p>
+</div>
+        <div style="display: flex; flex-direction: column; align-items: center; margin-top: 10px;">
+        <!-- ปุ่มส่งข้อมูล -->
+        <button id="submit-button" style="
+            display: none;
+            padding: 10px 20px;
+            background-color: #bb463C;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-top: 10px;
+        " onclick="submitData()">
+            ส่งข้อมูล
+        </button>
+    </div>
+    <!-- แอนิเมชันโหลด (แถบโปรเกรส) -->
+        <div id="loading-animation" class="progress" style="display: none;"></div>
+        
+        <!-- ข้อความผลลัพธ์ -->
+        <p id="result-message" style="display: none; margin-top: 20px; font-size: 1em; color: green;"></p>
+    </div>
+
+
+</div>
+
+
+    <script>
+        document.getElementById('current-date').value = new Date().toLocaleDateString();
+
+        // ดึงข้อมูลชื่อพนักงานจาก Google Apps Script และแสดงใน dropdown
+        function loadStaffNames() {
+            google.script.run.withSuccessHandler(function(names) {
+                const staffSelect = document.getElementById('staff');
+                staffSelect.innerHTML = '<option value="">-- เลือกพนักงาน --</option>'; // ลบ option เดิมออก
+                names.forEach(name => {
+                    const option = document.createElement('option');
+                    option.value = name;
+                    option.textContent = name;
+                    staffSelect.appendChild(option);
+                });
+            }).withFailureHandler(function(error) {
+                alert('เกิดข้อผิดพลาดในการโหลดข้อมูล: ' + error.message);
+            }).getStaffNames(); // เรียกใช้ฟังก์ชันที่ดึงข้อมูลชื่อพนักงานจาก Apps Script
+        }
+
+        // เรียกใช้ฟังก์ชัน loadStaffNames เมื่อเริ่มหน้า
+        loadStaffNames();
+
+        function checkStaff() {
+            const date = document.getElementById('current-date').value;
+            const staffName = document.getElementById('staff').value;
+
+            if (!staffName) {
+                alert('กรุณาเลือกชื่อพนักงาน');
+                return;
+            }
+
+            document.getElementById('loading-progress').style.display = 'block';
+            document.getElementById('result-message').textContent = '';
+            document.getElementById('action-button').innerHTML = '';
+
+            google.script.run.withSuccessHandler(function(response) {
+                document.getElementById('loading-progress').style.display = 'none';
+                const resultDiv = document.getElementById('result-message');
+                const actionDiv = document.getElementById('action-button');
+
+                resultDiv.textContent = response.message;
+                actionDiv.innerHTML = '';
+
+                // เช็คข้อความสถานะที่ได้จากระบบ
+        if (response.message === "กรุณา Clock In" || response.message === "กรุณา Clock Out") {
+            // ถ้าเป็น "กรุณา Clock In" หรือ "กรุณา Clock Out" ให้แสดงกล้อง
+            initializeCamera();
+        } else {
+            // ถ้าค่าอื่นๆ ให้ซ่อนกล้อง
+            document.getElementById('camera-section').style.display = 'none';
+        }
+            }).checkAttendance(date, staffName);
+        }
+
+        let videoStream = null;
+
+        function initializeCamera() {
+            const video = document.getElementById('camera-stream');
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    videoStream = stream;
+                    video.srcObject = stream;
+                    document.getElementById('camera-section').style.display = 'block';
+                })
+                .catch(err => {
+                    alert('ไม่สามารถเปิดกล้องได้: ' + err.message);
+                });
+        }
+
+        function captureImage() {
+    const video = document.getElementById('camera-stream');
+    const canvas = document.getElementById('snapshot');
+    const capturedImage = document.getElementById('captured-image');
+    const locationInfo = document.getElementById('location-info');
+    const captureButton = document.getElementById('capture-button');
+    const submitButton = document.getElementById('submit-button');
+
+    // ตั้งค่าขนาดของ canvas ให้ตรงกับวิดีโอ
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    // ตรวจสอบการรองรับ Geolocation API
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            position => {
+                const { latitude, longitude } = position.coords;
+                const timestamp = new Date().toLocaleString();
+
+                // วาดวันที่/เวลา และพิกัดบนภาพ
+                ctx.font = '20px Noto Sans Thai';
+                ctx.fillStyle = '#bb463C';
+                ctx.fillText(`Date/Time: ${timestamp}`, 10, canvas.height - 60);
+                ctx.fillText(`Lat: ${latitude}, Lon: ${longitude}`, 10, canvas.height - 30);
+
+                // แสดงผลข้อมูลวันที่/เวลา และพิกัด
+                locationInfo.textContent = `วันที่/เวลา: ${timestamp}, พิกัด: ละติจูด ${latitude}, ลองจิจูด ${longitude}`;
+
+                // แสดงภาพที่ถ่ายใน img
+                capturedImage.src = canvas.toDataURL('image/png');
+                capturedImage.style.display = 'block';
+
+                // ซ่อนกล้องและปุ่มถ่ายภาพ
+            video.style.display = 'none';
+            captureButton.style.display = 'none';
+
+                // แสดงปุ่มส่งข้อมูล
+                submitButton.style.display = 'block';
+            },
+            error => {
+                alert('ไม่สามารถดึงข้อมูลพิกัดได้: ' + error.message);
+            }
+        );
+    } else {
+        alert('เบราว์เซอร์ของคุณไม่รองรับ Geolocation API');
+    }
+}
+
+// เพิ่ม Event Listener สำหรับปุ่มถ่ายภาพ
+document.getElementById('capture-button').addEventListener('click', captureImage);
+
+
+        function submitData() {
+            const capturedImage = document.getElementById('captured-image').src;
+            const staffName = document.getElementById('staff').value;
+            console.log(staffName); // เพิ่มการตรวจสอบใน Console
+            const timestamp = document.getElementById('location-info').textContent; // ใช้ทั้งวันที่และเวลา
+            const statusMessage = document.getElementById('result-message').textContent; // ข้อความสถานะจากระบบ
+
+            console.log('Captured Image:', capturedImage);
+            console.log('Staff Name:', staffName);
+            console.log('Timestamp:', timestamp);
+            console.log('Status Message:', statusMessage);
+
+            if (!capturedImage || !staffName || !timestamp) {
+                alert('กรุณาถ่ายภาพและเลือกชื่อพนักงานก่อนส่งข้อมูล');
+                return;
+            }
+
+            // ซ่อนปุ่ม "ส่งข้อมูล" และแสดงแอนิเมชันโหลด
+    document.getElementById('submit-button').style.display = 'none';
+    document.getElementById('loading-animation').style.display = 'block';
+    document.getElementById('result-message').style.display = 'none';
+
+            // ตรวจสอบสถานะว่าเป็น "กรุณา Clock In" หรือ "กรุณา Clock Out"
+    if (statusMessage.includes("กรุณา Clock In")) {
+        google.script.run.withSuccessHandler(function(response) {
+            // ซ่อนแอนิเมชันโหลด และแสดงข้อความผลลัพธ์
+            document.getElementById('loading-animation').style.display = 'none';
+            document.getElementById('result-message').style.display = 'block';
+
+            if (response.success) {
+                document.getElementById('result-message').textContent = response.message;
+                document.getElementById('result-message').style.color = 'green'; // สีเขียวถ้าสำเร็จ
+            } else {
+                document.getElementById('result-message').textContent = `เกิดข้อผิดพลาด: ${response.message}`;
+                document.getElementById('result-message').style.color = 'red'; // สีแดงถ้าเกิดข้อผิดพลาด
+            }
+        }).uploadClockInData(capturedImage, staffName, timestamp);
+    } else if (statusMessage.includes("กรุณา Clock Out")) {
+        google.script.run.withSuccessHandler(function(response) {
+            // ซ่อนแอนิเมชันโหลด และแสดงข้อความผลลัพธ์
+            document.getElementById('loading-animation').style.display = 'none';
+            document.getElementById('result-message').style.display = 'block';
+
+            if (response.success) {
+                document.getElementById('result-message').textContent = response.message;
+                document.getElementById('result-message').style.color = 'green'; // สีเขียวถ้าสำเร็จ
+            } else {
+                document.getElementById('result-message').textContent = `เกิดข้อผิดพลาด: ${response.message}`;
+                document.getElementById('result-message').style.color = 'red'; // สีแดงถ้าเกิดข้อผิดพลาด
+            }
+        }).uploadClockOutData(capturedImage, staffName, timestamp); // ฟังก์ชันสำหรับ Clock Out
+            }
+        }
+    </script>
+</body>
+</html>
