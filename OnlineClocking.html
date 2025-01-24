@@ -205,7 +205,7 @@
 
         // ดึงข้อมูลชื่อพนักงานจาก Google Apps Script Web App และแสดงใน dropdown
 function loadStaffNames() {
-    fetch('https://script.google.com/macros/s/AKfycbwdyPIEkI0YC70jMmHCaFBH-QOBvb6nui6j0O64PCL8LFFhjaAXVo42wi51gdzG0cZq/exec', {
+    fetch('https://script.google.com/macros/s/AKfycby-MBHGNvF8-4b84A9OGen3Rlyt3V2vGzsQ9HKNxLwoWr9XidCYIVhjYH02olSafFM-/exec', {
         method: 'GET',
     })
     .then(response => response.json())
@@ -240,36 +240,34 @@ function checkStaff() {
     document.getElementById('result-message').textContent = '';
     document.getElementById('action-button').innerHTML = '';
 
+    // สร้าง URL สำหรับการเรียก doGet() ใน Google Apps Script
+    const url = `https://script.google.com/macros/s/AKfycby-MBHGNvF8-4b84A9OGen3Rlyt3V2vGzsQ9HKNxLwoWr9XidCYIVhjYH02olSafFM-/exec?action=checkAttendance&date=${encodeURIComponent(date)}&staffName=${encodeURIComponent(staffName)}`;
+
     // ส่งข้อมูลไปยัง Google Apps Script Web App ด้วย fetch
-    fetch('https://script.google.com/macros/s/AKfycbwdyPIEkI0YC70jMmHCaFBH-QOBvb6nui6j0O64PCL8LFFhjaAXVo42wi51gdzG0cZq/exec', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ date, staffName })
-    })
-    .then(response => response.json())
-    .then(response => {
-        document.getElementById('loading-progress').style.display = 'none';
-        const resultDiv = document.getElementById('result-message');
-        const actionDiv = document.getElementById('action-button');
+    fetch(url)
+        .then(response => response.json())
+        .then(response => {
+            document.getElementById('loading-progress').style.display = 'none';
+            const resultDiv = document.getElementById('result-message');
+            const actionDiv = document.getElementById('action-button');
 
-        resultDiv.textContent = response.message;
-        actionDiv.innerHTML = '';
+            resultDiv.textContent = response.message;
+            actionDiv.innerHTML = '';
 
-        // เช็คข้อความสถานะที่ได้จากระบบ
-        if (response.message === "กรุณา Clock In" || response.message === "กรุณา Clock Out") {
-            // ถ้าเป็น "กรุณา Clock In" หรือ "กรุณา Clock Out" ให้แสดงกล้อง
-            initializeCamera();
-        } else {
-            // ถ้าค่าอื่นๆ ให้ซ่อนกล้อง
-            document.getElementById('camera-section').style.display = 'none';
-        }
-    })
-    .catch(error => {
-        alert('เกิดข้อผิดพลาดในการเช็คข้อมูล: ' + error.message);
-    });
+            // เช็คข้อความสถานะที่ได้จากระบบ
+            if (response.message === "กรุณา Clock In" || response.message === "กรุณา Clock Out") {
+                // ถ้าเป็น "กรุณา Clock In" หรือ "กรุณา Clock Out" ให้แสดงกล้อง
+                initializeCamera();
+            } else {
+                // ถ้าค่าอื่นๆ ให้ซ่อนกล้อง
+                document.getElementById('camera-section').style.display = 'none';
+            }
+        })
+        .catch(error => {
+            alert('เกิดข้อผิดพลาดในการเช็คข้อมูล: ' + error.message);
+        });
 }
+
 
         let videoStream = null;
 
