@@ -188,22 +188,36 @@
         document.getElementById('current-date').value = new Date().toLocaleDateString();
 
         async function loadStaffNames() {
-            try {
-                const response = await fetch('https://script.google.com/macros/s/AKfycbz7zIEnnKPxJ7lGIQ6SDSO0oll5xYclHQMJ1L6BbYr_wfPnPc_uteZgTfv6jMUAtMOe/exec?method=getStaffNames');
-                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-                const names = await response.json();
-                const staffSelect = document.getElementById('staff');
-                staffSelect.innerHTML = '<option value="">-- เลือกพนักงาน --</option>';
-                names.forEach(name => {
-                    const option = document.createElement('option');
-                    option.value = name;
-                    option.textContent = name;
-                    staffSelect.appendChild(option);
-                });
-            } catch (error) {
-                alert('เกิดข้อผิดพลาดในการโหลดข้อมูล: ' + error.message);
-            }
-        }
+  try {
+    const response = await fetch('https://script.google.com/macros/s/AKfycbzOFhRk7wjJ4XiWkWLqdo6TSivCabVA7ooLHZBzx4mml69XQMbdnfGthIoDREgUOYtP/exec?method=getStaffNames');
+    
+    // ตรวจสอบการตอบกลับจากเซิร์ฟเวอร์
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    // แปลงข้อมูลที่ได้จาก response เป็น JSON
+    const result = await response.json();
+
+    // ตรวจสอบว่า result.success เป็น true และ names มีข้อมูลที่ถูกต้อง
+    if (result.success && Array.isArray(result.staffNames)) {
+      const staffSelect = document.getElementById('staff');
+      staffSelect.innerHTML = '<option value="">-- เลือกพนักงาน --</option>';  // ลบ option เดิมออก
+
+      // ใส่ชื่อพนักงานลงใน <select>
+      result.staffNames.forEach(name => {
+        const option = document.createElement('option');
+        option.value = name;
+        option.textContent = name;
+        staffSelect.appendChild(option);
+      });
+    } else {
+      throw new Error('ไม่พบข้อมูลชื่อพนักงาน');
+    }
+  } catch (error) {
+    alert('เกิดข้อผิดพลาดในการโหลดข้อมูล: ' + error.message);
+  }
+}
 
         loadStaffNames();
 
@@ -221,7 +235,7 @@
             document.getElementById('action-button').innerHTML = '';
 
             try {
-                const response = await fetch('https://script.google.com/macros/s/AKfycbz7zIEnnKPxJ7lGIQ6SDSO0oll5xYclHQMJ1L6BbYr_wfPnPc_uteZgTfv6jMUAtMOe/exec', {
+                const response = await fetch('https://script.google.com/macros/s/AKfycbzOFhRk7wjJ4XiWkWLqdo6TSivCabVA7ooLHZBzx4mml69XQMbdnfGthIoDREgUOYtP/exec', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -327,7 +341,7 @@
             document.getElementById('loading-animation').style.display = 'block';
 
             try {
-                const response = await fetch('https://script.google.com/macros/s/AKfycbz7zIEnnKPxJ7lGIQ6SDSO0oll5xYclHQMJ1L6BbYr_wfPnPc_uteZgTfv6jMUAtMOe/exec', {
+                const response = await fetch('https://script.google.com/macros/s/AKfycbzOFhRk7wjJ4XiWkWLqdo6TSivCabVA7ooLHZBzx4mml69XQMbdnfGthIoDREgUOYtP/exec', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
