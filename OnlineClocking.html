@@ -189,7 +189,7 @@
 
         async function loadStaffNames() {
   try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbzB25PCKuZFjkIPLtfvVrq4IDmfjAx7s68KLF9zVKiRbnLY3wuq9wmaY3u7CmyvdWai/exec?action=getStaffNames');
+    const response = await fetch('https://script.google.com/macros/s/AKfycbwWI629uL4nfy_bQb6W9XWTzAUKUxiuLU1x1nEGWCO8uwqmpv5BgQ-sgKxhVswqYLdX/exec?action=getStaffNames');
     
     // ตรวจสอบการตอบกลับจากเซิร์ฟเวอร์
     if (!response.ok) {
@@ -236,7 +236,7 @@
 
   try {
     // ส่งข้อมูล POST ไปยัง Google Apps Script
-    const response = await fetch('https://script.google.com/macros/s/AKfycbzB25PCKuZFjkIPLtfvVrq4IDmfjAx7s68KLF9zVKiRbnLY3wuq9wmaY3u7CmyvdWai/exec', {
+    const response = await fetch('https://script.google.com/macros/s/AKfycbwWI629uL4nfy_bQb6W9XWTzAUKUxiuLU1x1nEGWCO8uwqmpv5BgQ-sgKxhVswqYLdX/exec', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -343,7 +343,7 @@
             document.getElementById('loading-animation').style.display = 'block';
 
             try {
-                const response = await fetch('https://script.google.com/macros/s/AKfycbzB25PCKuZFjkIPLtfvVrq4IDmfjAx7s68KLF9zVKiRbnLY3wuq9wmaY3u7CmyvdWai/exec', {
+                const response = await fetch('https://script.google.com/macros/s/AKfycbwWI629uL4nfy_bQb6W9XWTzAUKUxiuLU1x1nEGWCO8uwqmpv5BgQ-sgKxhVswqYLdX/exec', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
