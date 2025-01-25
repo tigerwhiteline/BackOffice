@@ -204,12 +204,15 @@
         document.getElementById('current-date').value = new Date().toLocaleDateString();
 
         // ดึงข้อมูลชื่อพนักงานจาก Google Apps Script Web App และแสดงใน dropdown
-function loadStaffNames() {
-    fetch('https://script.google.com/macros/s/AKfycby-MBHGNvF8-4b84A9OGen3Rlyt3V2vGzsQ9HKNxLwoWr9XidCYIVhjYH02olSafFM-/exec', {
-        method: 'GET',
-    })
-    .then(response => response.json())
-    .then(names => {
+async function loadStaffNames() {
+    try {
+        const response = await fetch('https://script.google.com/macros/s/AKfycbwnRAZXWsKXvwhtGZimTBJViacgdexZ6JTE53yPTs7i6yPE09-SiweDk8p58aLa1tc/exec?method=getStaffNames');
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        
+        const names = await response.json();
         const staffSelect = document.getElementById('staff');
         staffSelect.innerHTML = '<option value="">-- เลือกพนักงาน --</option>'; // ลบ option เดิมออก
         names.forEach(name => {
@@ -218,16 +221,17 @@ function loadStaffNames() {
             option.textContent = name;
             staffSelect.appendChild(option);
         });
-    })
-    .catch(error => {
+    } catch (error) {
         alert('เกิดข้อผิดพลาดในการโหลดข้อมูล: ' + error.message);
-    });
+    }
 }
-        // เรียกใช้ฟังก์ชัน loadStaffNames เมื่อเริ่มหน้า
-        loadStaffNames();
+
+// เรียกใช้ฟังก์ชัน loadStaffNames เมื่อเริ่มหน้า
+loadStaffNames();
+
 
         // เช็คสถานะการเข้าออกงาน
-function checkStaff() {
+async function checkStaff() {
     const date = document.getElementById('current-date').value;
     const staffName = document.getElementById('staff').value;
 
@@ -240,33 +244,40 @@ function checkStaff() {
     document.getElementById('result-message').textContent = '';
     document.getElementById('action-button').innerHTML = '';
 
-    // สร้าง URL สำหรับการเรียก doGet() ใน Google Apps Script
-    const url = `https://script.google.com/macros/s/AKfycby-MBHGNvF8-4b84A9OGen3Rlyt3V2vGzsQ9HKNxLwoWr9XidCYIVhjYH02olSafFM-/exec?action=checkAttendance&date=${encodeURIComponent(date)}&staffName=${encodeURIComponent(staffName)}`;
-
-    // ส่งข้อมูลไปยัง Google Apps Script Web App ด้วย fetch
-    fetch(url)
-        .then(response => response.json())
-        .then(response => {
-            document.getElementById('loading-progress').style.display = 'none';
-            const resultDiv = document.getElementById('result-message');
-            const actionDiv = document.getElementById('action-button');
-
-            resultDiv.textContent = response.message;
-            actionDiv.innerHTML = '';
-
-            // เช็คข้อความสถานะที่ได้จากระบบ
-            if (response.message === "กรุณา Clock In" || response.message === "กรุณา Clock Out") {
-                // ถ้าเป็น "กรุณา Clock In" หรือ "กรุณา Clock Out" ให้แสดงกล้อง
-                initializeCamera();
-            } else {
-                // ถ้าค่าอื่นๆ ให้ซ่อนกล้อง
-                document.getElementById('camera-section').style.display = 'none';
-            }
-        })
-        .catch(error => {
-            alert('เกิดข้อผิดพลาดในการเช็คข้อมูล: ' + error.message);
+    try {
+        const response = await fetch('https://script.google.com/macros/s/AKfycbwnRAZXWsKXvwhtGZimTBJViacgdexZ6JTE53yPTs7i6yPE09-SiweDk8p58aLa1tc/exec', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                method: 'checkAttendance',
+                date,
+                staffName
+            })
         });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        document.getElementById('loading-progress').style.display = 'none';
+        const resultDiv = document.getElementById('result-message');
+        const actionDiv = document.getElementById('action-button');
+
+        resultDiv.textContent = result.message;
+
+        if (result.message === "กรุณา Clock In" || result.message === "กรุณา Clock Out") {
+            initializeCamera(); // เปิดกล้อง
+        } else {
+            document.getElementById('camera-section').style.display = 'none'; // ซ่อนกล้อง
+        }
+    } catch (error) {
+        document.getElementById('loading-progress').style.display = 'none';
+        alert('เกิดข้อผิดพลาดในการตรวจสอบข้อมูล: ' + error.message);
+    }
 }
+
+
 
 
         let videoStream = null;
@@ -339,59 +350,80 @@ function checkStaff() {
 document.getElementById('capture-button').addEventListener('click', captureImage);
 
 
-        function submitData() {
-            const capturedImage = document.getElementById('captured-image').src;
-            const staffName = document.getElementById('staff').value;
-            console.log(staffName); // เพิ่มการตรวจสอบใน Console
-            const timestamp = document.getElementById('location-info').textContent; // ใช้ทั้งวันที่และเวลา
-            const statusMessage = document.getElementById('result-message').textContent; // ข้อความสถานะจากระบบ
+        async function submitData() {
+    const capturedImage = document.getElementById('captured-image').src;
+    const staffName = document.getElementById('staff').value;
+    const timestamp = document.getElementById('location-info').textContent; // ใช้ทั้งวันที่และเวลา
+    const statusMessage = document.getElementById('result-message').textContent; // ข้อความสถานะจากระบบ
 
-            console.log('Captured Image:', capturedImage);
-            console.log('Staff Name:', staffName);
-            console.log('Timestamp:', timestamp);
-            console.log('Status Message:', statusMessage);
+    console.log('Captured Image:', capturedImage);
+    console.log('Staff Name:', staffName);
+    console.log('Timestamp:', timestamp);
+    console.log('Status Message:', statusMessage);
 
-            if (!capturedImage || !staffName || !timestamp) {
-                alert('กรุณาถ่ายภาพและเลือกชื่อพนักงานก่อนส่งข้อมูล');
-                return;
-            }
+    if (!capturedImage || !staffName || !timestamp) {
+        alert('กรุณาถ่ายภาพและเลือกชื่อพนักงานก่อนส่งข้อมูล');
+        return;
+    }
 
-            // ซ่อนปุ่ม "ส่งข้อมูล" และแสดงแอนิเมชันโหลด
+    // ซ่อนปุ่ม "ส่งข้อมูล" และแสดงแอนิเมชันโหลด
     document.getElementById('submit-button').style.display = 'none';
     document.getElementById('loading-animation').style.display = 'block';
     document.getElementById('result-message').style.display = 'none';
 
-            // ตรวจสอบสถานะว่าเป็น "กรุณา Clock In" หรือ "กรุณา Clock Out"
-    if (statusMessage.includes("กรุณา Clock In")) {
-        google.script.run.withSuccessHandler(function(response) {
-            // ซ่อนแอนิเมชันโหลด และแสดงข้อความผลลัพธ์
-            document.getElementById('loading-animation').style.display = 'none';
-            document.getElementById('result-message').style.display = 'block';
+    const endpoint = statusMessage.includes("กรุณา Clock In")
+        ? "https://script.google.com/macros/s/AKfycbwnRAZXWsKXvwhtGZimTBJViacgdexZ6JTE53yPTs7i6yPE09-SiweDk8p58aLa1tc/exec?method=uploadClockInData"
+        : statusMessage.includes("กรุณา Clock Out")
+        ? "https://script.google.com/macros/s/AKfycbwnRAZXWsKXvwhtGZimTBJViacgdexZ6JTE53yPTs7i6yPE09-SiweDk8p58aLa1tc/exec?method=uploadClockOutData"
+        : null;
 
-            if (response.success) {
-                document.getElementById('result-message').textContent = response.message;
-                document.getElementById('result-message').style.color = 'green'; // สีเขียวถ้าสำเร็จ
-            } else {
-                document.getElementById('result-message').textContent = `เกิดข้อผิดพลาด: ${response.message}`;
-                document.getElementById('result-message').style.color = 'red'; // สีแดงถ้าเกิดข้อผิดพลาด
-            }
-        }).uploadClockInData(capturedImage, staffName, timestamp);
-    } else if (statusMessage.includes("กรุณา Clock Out")) {
-        google.script.run.withSuccessHandler(function(response) {
-            // ซ่อนแอนิเมชันโหลด และแสดงข้อความผลลัพธ์
-            document.getElementById('loading-animation').style.display = 'none';
-            document.getElementById('result-message').style.display = 'block';
+    if (!endpoint) {
+        alert("สถานะไม่ถูกต้อง กรุณาตรวจสอบใหม่");
+        document.getElementById('submit-button').style.display = 'block';
+        document.getElementById('loading-animation').style.display = 'none';
+        return;
+    }
 
-            if (response.success) {
-                document.getElementById('result-message').textContent = response.message;
-                document.getElementById('result-message').style.color = 'green'; // สีเขียวถ้าสำเร็จ
-            } else {
-                document.getElementById('result-message').textContent = `เกิดข้อผิดพลาด: ${response.message}`;
-                document.getElementById('result-message').style.color = 'red'; // สีแดงถ้าเกิดข้อผิดพลาด
-            }
-        }).uploadClockOutData(capturedImage, staffName, timestamp); // ฟังก์ชันสำหรับ Clock Out
-            }
+    try {
+        const payload = {
+            image: capturedImage,
+            staffName: staffName,
+            timestamp: timestamp,
+        };
+
+        const response = await fetch(endpoint, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
         }
+
+        const result = await response.json();
+
+        document.getElementById('loading-animation').style.display = 'none';
+        document.getElementById('result-message').style.display = 'block';
+
+        if (result.success) {
+            document.getElementById('result-message').textContent = result.message;
+            document.getElementById('result-message').style.color = 'green'; // สีเขียวถ้าสำเร็จ
+        } else {
+            document.getElementById('result-message').textContent = `เกิดข้อผิดพลาด: ${result.message}`;
+            document.getElementById('result-message').style.color = 'red'; // สีแดงถ้าเกิดข้อผิดพลาด
+        }
+    } catch (error) {
+        document.getElementById('loading-animation').style.display = 'none';
+        document.getElementById('submit-button').style.display = 'block';
+        document.getElementById('result-message').style.display = 'block';
+        document.getElementById('result-message').textContent = `เกิดข้อผิดพลาด: ${error.message}`;
+        document.getElementById('result-message').style.color = 'red';
+    }
+}
+
     </script>
 </body>
 </html>
