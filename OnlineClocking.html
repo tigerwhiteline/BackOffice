@@ -194,7 +194,7 @@
 
         async function loadStaffNames() {
   try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbzHDBc7HTbNlBmkYj1pVBtBpGiG6sXzsONiPjF0iSUI4teW3W1_UgEduDWAAIRaOtc/exec?action=getStaffNames');
+    const response = await fetch('https://script.google.com/macros/s/AKfycbxmTUvlSOPRyvYn6is5m2wBpBmxwQEsv1UhLlUCBLCGdSfUdoNO8Vf-q427dBF80dWA/exec?action=getStaffNames');
     
     // ตรวจสอบการตอบกลับจากเซิร์ฟเวอร์
     if (!response.ok) {
@@ -246,7 +246,7 @@
       staffName,
     });
 
-    const response = await fetch(`https://script.google.com/macros/s/AKfycbzHDBc7HTbNlBmkYj1pVBtBpGiG6sXzsONiPjF0iSUI4teW3W1_UgEduDWAAIRaOtc/exec?${query}`, {
+    const response = await fetch(`https://script.google.com/macros/s/AKfycbxmTUvlSOPRyvYn6is5m2wBpBmxwQEsv1UhLlUCBLCGdSfUdoNO8Vf-q427dBF80dWA/exec?${query}`, {
       method: 'GET',
     });
 
