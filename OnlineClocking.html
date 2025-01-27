@@ -189,7 +189,7 @@
 
         async function loadStaffNames() {
   try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbx9OUeVitBt6t7ivhTGh4WQb69VV7Vh_AKBI1q0fJ9CXLzVqDclyZn9HOvz4JVqMHuJ/exec?action=getStaffNames');
+    const response = await fetch('https://script.google.com/macros/s/AKfycbxlKDBOiyP2YYDloSC3JCdyOU4dbidqj-cHMwlStO1NdpxHrKG-y1Qe3ltMKxrfbQCt/exec?action=getStaffNames');
     
     // ตรวจสอบการตอบกลับจากเซิร์ฟเวอร์
     if (!response.ok) {
@@ -241,7 +241,7 @@
       staffName,
     });
 
-    const response = await fetch(`https://script.google.com/macros/s/AKfycbx9OUeVitBt6t7ivhTGh4WQb69VV7Vh_AKBI1q0fJ9CXLzVqDclyZn9HOvz4JVqMHuJ/exec?${query}`, {
+    const response = await fetch(`https://script.google.com/macros/s/AKfycbxlKDBOiyP2YYDloSC3JCdyOU4dbidqj-cHMwlStO1NdpxHrKG-y1Qe3ltMKxrfbQCt/exec?${query}`, {
       method: 'GET',
     });
 
@@ -335,6 +335,8 @@
   const timestamp = document.getElementById('location-info')?.textContent || "";
   const statusMessage = document.getElementById('result-message')?.textContent || "";
 
+
+
   // ตรวจสอบข้อมูลที่จำเป็นก่อนส่ง
   if (!capturedImage || !staffName || !timestamp) {
     alert('กรุณาถ่ายภาพ เลือกชื่อพนักงาน และระบุข้อมูลเวลาที่ถูกต้องก่อนส่งข้อมูล');
@@ -351,7 +353,7 @@
     // ตรวจสอบสถานะและเลือก method ที่จะส่งไป
     const method = statusMessage.includes("กรุณา Clock In") ? "uploadClockInData" : "uploadClockOutData";
 
-    const response = await fetch('https://script.google.com/macros/s/AKfycbx9OUeVitBt6t7ivhTGh4WQb69VV7Vh_AKBI1q0fJ9CXLzVqDclyZn9HOvz4JVqMHuJ/exec', {
+    const response = await fetch('https://script.google.com/macros/s/AKfycbxlKDBOiyP2YYDloSC3JCdyOU4dbidqj-cHMwlStO1NdpxHrKG-y1Qe3ltMKxrfbQCt/exec', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
