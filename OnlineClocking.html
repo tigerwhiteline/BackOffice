@@ -364,6 +364,7 @@
         method: "POST",
         headers: {
             "Content-Type": "application/json",
+            "Origin": window.location.origin, // ส่งแหล่งที่มาของเว็บไซต์ที่กำลังทำงาน
         },
         body: JSON.stringify(requestData),
     })
