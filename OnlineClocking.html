@@ -355,7 +355,7 @@
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        method: method, // เลือก method ตามสถานะ Clock In/Out
+        method: 'uploadClockInData', // เลือก method ตามสถานะ Clock In/Out
         staffName: staffName,
         dataUrl: capturedImage,
         timestamp: timestamp
