@@ -193,7 +193,7 @@
 
         async function loadStaffNames() {
   try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbzcEW6OxvhegLkMAxqdhZWusPkE0cYUZphV5i1jFVisEJhPbapK6uB8rMbU0mdDryqB/exec?action=getStaffNames');
+    const response = await fetch('https://script.google.com/macros/s/AKfycbxLKNyl2_X9ytrwngA30pCSKN4hsbdnS01WYcc8b4a3HcELpsZjxa72Cn4zDskiLH2H/exec?action=getStaffNames');
     
     // ตรวจสอบการตอบกลับจากเซิร์ฟเวอร์
     if (!response.ok) {
@@ -245,7 +245,7 @@
       staffName,
     });
 
-    const response = await fetch(`https://script.google.com/macros/s/AKfycbzcEW6OxvhegLkMAxqdhZWusPkE0cYUZphV5i1jFVisEJhPbapK6uB8rMbU0mdDryqB/exec?${query}`, {
+    const response = await fetch(`https://script.google.com/macros/s/AKfycbxLKNyl2_X9ytrwngA30pCSKN4hsbdnS01WYcc8b4a3HcELpsZjxa72Cn4zDskiLH2H/exec?${query}`, {
       method: 'GET',
     });
 
@@ -349,7 +349,7 @@
     document.getElementById('result-message').style.display = 'none';
 
     // กำหนด URL ของ Web App
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbzcEW6OxvhegLkMAxqdhZWusPkE0cYUZphV5i1jFVisEJhPbapK6uB8rMbU0mdDryqB/exec";
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbxLKNyl2_X9ytrwngA30pCSKN4hsbdnS01WYcc8b4a3HcELpsZjxa72Cn4zDskiLH2H/exec";
 
     // เตรียมข้อมูลที่ต้องการส่ง
     const requestData = {
@@ -358,7 +358,7 @@
         timestamp,
         status: statusMessage.includes("Clock In") ? "Clock In" : "Clock Out",
     };
-
+        console.log('Request Data:', requestData);
     // ใช้ Fetch API เพื่อส่งคำขอ
     fetch(webAppUrl, {
         method: "POST",
@@ -370,14 +370,15 @@
     })
         .then((response) => {
             if (!response.ok) {
-                throw new Error("Network response was not ok");
+                throw new Error(`HTTP error! Status: ${response.status}`);
             }
             return response.json();
         })
         .then((data) => {
+            console.log("Success:", data);
             document.getElementById('loading-animation').style.display = 'none';
             document.getElementById('result-message').style.display = 'block';
-            console.log("Success:", data);
+            
             // Handle the response from your Google Apps Script.
 
             if (data.success) {
