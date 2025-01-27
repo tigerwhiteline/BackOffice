@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
     <title>TIGER WHITE LINE | WORK RECORD</title>
-<link rel="shortcut icon" href="https://tigerwhiteline.github.io/BackOffice/favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="https://tigerwhiteline.github.io/BackOffice/favicon.png" type="image/x-icon">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;700&display=swap" rel="stylesheet">
@@ -334,25 +334,29 @@
 
         document.getElementById('capture-button').addEventListener('click', captureImage);
 
-        function submitData() {
+    function submitData() {
+    // 1. ดึงข้อมูลจากฟอร์ม
     const capturedImage = document.getElementById('captured-image').src;
     const staffName = document.getElementById('staff').value;
     const timestamp = document.getElementById('location-info').textContent;
     const statusMessage = document.getElementById('result-message').textContent;
 
+    // 2. ตรวจสอบข้อมูลครบถ้วน
     if (!capturedImage || !staffName || !timestamp) {
         alert('กรุณาถ่ายภาพและเลือกชื่อพนักงานก่อนส่งข้อมูล');
         return;
     }
 
+    // 3. ปุ่มกด Submit และแสดงสถานะ Loading
     document.getElementById('submit-button').style.display = 'none';
     document.getElementById('loading-animation').style.display = 'block';
     document.getElementById('result-message').style.display = 'none';
 
-    // เพิ่มพารามิเตอร์ preflight=true ใน URL
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbzHDBc7HTbNlBmkYj1pVBtBpGiG6sXzsONiPjF0iSUI4teW3W1_UgEduDWAAIRaOtc/exec?preflight=true";
-    console.log("Fetching data from:", webAppUrl);
+    // 4. ตั้งค่า URL ของ Google Apps Script
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbxmTUvlSOPRyvYn6is5m2wBpBmxwQEsv1UhLlUCBLCGdSfUdoNO8Vf-q427dBF80dWA/exec";
+    console.log("ส่งข้อมูลไปยัง:", webAppUrl);
 
+    // 5. เตรียมข้อมูลสำหรับส่ง
     const requestData = {
         capturedImage,
         staffName,
@@ -360,43 +364,50 @@
         status: statusMessage.includes("Clock In") ? "Clock In" : "Clock Out",
     };
 
+    // 6. ใช้ Fetch API ส่งข้อมูล
     fetch(webAppUrl, {
         method: 'POST',
-        mode: 'cors', // ตั้งค่า mode เป็น cors
         headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'text/plain' // ตั้งค่า Content-Type เป็น text/plain
         },
-        body: JSON.stringify(requestData),
+        body: JSON.stringify(requestData), // แปลงข้อมูลเป็น JSON String
     })
     .then((response) => {
-        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+        // 7. ตรวจสอบสถานะการตอบกลับ
+        if (!response.ok) {
+            throw new Error(`เกิดข้อผิดพลาด HTTP! สถานะ: ${response.status}`);
+        }
         return response.json();
     })
     .then((data) => {
-        // ประมวลผลข้อมูลสำเร็จ
-        console.log("Success:", data);
+        // 8. ประมวลผลผลลัพธ์สำเร็จ
+        console.log("ผลลัพธ์:", data);
         document.getElementById('loading-animation').style.display = 'none';
         document.getElementById('result-message').style.display = 'block';
 
         if (data.success) {
+            // 9. แสดงข้อความสำเร็จและรีเซ็ตฟอร์ม
             document.getElementById('result-message').textContent = data.message;
             document.getElementById('result-message').style.color = 'green';
-            // เคลียร์ฟอร์ม (ถ้าต้องการ)
-            document.getElementById('captured-image').src = '';
-            document.getElementById('staff').value = '';
+            document.getElementById('captured-image').src = ''; // ลบรูปภาพ
+            document.getElementById('staff').value = ''; // ล้างชื่อพนักงาน
         } else {
+            // 10. แสดงข้อความผิดพลาด
             document.getElementById('result-message').textContent = `เกิดข้อผิดพลาด: ${data.message}`;
             document.getElementById('result-message').style.color = 'red';
         }
     })
     .catch((error) => {
-        console.error("Error:", error);
+        // 11. จัดการข้อผิดพลาดเครือข่าย
+        console.error("ข้อผิดพลาด:", error);
         document.getElementById('loading-animation').style.display = 'none';
         document.getElementById('result-message').style.display = 'block';
-        document.getElementById('result-message').textContent = "เกิดข้อผิดพลาดในการเชื่อมต่อ";
+        document.getElementById('result-message').textContent = "เชื่อมต่อเซิร์ฟเวอร์ไม่สำเร็จ";
         document.getElementById('result-message').style.color = 'red';
     });
 }
+}
+
 
     </script>
 </body>
