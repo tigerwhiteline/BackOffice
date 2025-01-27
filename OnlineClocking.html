@@ -189,7 +189,7 @@
 
         async function loadStaffNames() {
   try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbwWI629uL4nfy_bQb6W9XWTzAUKUxiuLU1x1nEGWCO8uwqmpv5BgQ-sgKxhVswqYLdX/exec?action=getStaffNames');
+    const response = await fetch('https://script.google.com/macros/s/AKfycbyAwpjTYvbXt2ECTCpbyKRM1yWl9tD966vT85e5euDxdagejICkdKWJ9gK-joSnCvJG/exec?action=getStaffNames');
     
     // ตรวจสอบการตอบกลับจากเซิร์ฟเวอร์
     if (!response.ok) {
@@ -235,36 +235,37 @@
   document.getElementById('action-button').innerHTML = '';
 
   try {
-    // ส่งข้อมูล POST ไปยัง Google Apps Script
-    const response = await fetch('https://script.google.com/macros/s/AKfycbwWI629uL4nfy_bQb6W9XWTzAUKUxiuLU1x1nEGWCO8uwqmpv5BgQ-sgKxhVswqYLdX/exec', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        method: 'checkAttendance',
-        date,
-        staffName
-      })
+    const query = new URLSearchParams({
+      method: 'checkAttendance',
+      date,
+      staffName,
+    });
+
+    const response = await fetch(`https://script.google.com/macros/s/AKfycbyAwpjTYvbXt2ECTCpbyKRM1yWl9tD966vT85e5euDxdagejICkdKWJ9gK-joSnCvJG/exec?${query}`, {
+      method: 'GET',
     });
 
     if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
     const result = await response.json();
+    if (!result || !result.message) throw new Error('Invalid response from server.');
+
     document.getElementById('loading-progress').style.display = 'none';
     const resultDiv = document.getElementById('result-message');
-    const actionDiv = document.getElementById('action-button');
 
     resultDiv.textContent = result.message;
-
     if (result.message === "กรุณา Clock In" || result.message === "กรุณา Clock Out") {
-      initializeCamera(); // เปิดกล้องถ้าต้องการ Clock In หรือ Clock Out
+      initializeCamera(); // ฟังก์ชันเปิดกล้อง (ต้องมีการนิยามไว้)
     } else {
-      document.getElementById('camera-section').style.display = 'none'; // ซ่อนกล้องถ้าทำเสร็จแล้ว
+      document.getElementById('camera-section').style.display = 'none'; // ซ่อนกล้องหากไม่ต้องใช้งาน
     }
   } catch (error) {
     document.getElementById('loading-progress').style.display = 'none';
     alert('เกิดข้อผิดพลาดในการตรวจสอบข้อมูล: ' + error.message);
   }
 }
+
+
 
 
         let videoStream = null;
