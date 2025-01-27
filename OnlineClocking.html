@@ -350,7 +350,7 @@
 
     // กำหนด URL ของ Web App
     const webAppUrl = "https://script.google.com/macros/s/AKfycbzVLo4wnP-H_rbLp6vG6ZW10O_InhTzz2LRuZTmnTJYBGixJOozIk8myWC_yfdYOruU/exec";
-
+    console.log("Fetching data from:", webAppUrl);
     // เตรียมข้อมูลที่ต้องการส่ง
     const requestData = {
         capturedImage,
@@ -361,10 +361,10 @@
         console.log('Request Data:', requestData);
     // ใช้ Fetch API เพื่อส่งคำขอ
     fetch(webAppUrl, {
-        method: "POST",
+        method: 'POST',
         headers: {
-            "Content-Type": "application/json",
-            "Origin": window.location.origin, // ส่งแหล่งที่มาของเว็บไซต์ที่กำลังทำงาน
+            'Content-Type': 'application/json',
+            
         },
         body: JSON.stringify(requestData),
     })
