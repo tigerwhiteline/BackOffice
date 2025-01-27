@@ -193,7 +193,7 @@
 
         async function loadStaffNames() {
   try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbzlPcKu2jyLIny0qT0I1MI5LsFNkIahPgs8XuA2T6Ec0Sdqxry3RIO8q_6oqIStT67U/exec?action=getStaffNames');
+    const response = await fetch('https://script.google.com/macros/s/AKfycbypXLdJ2ygBFYQRUf2gfQJ2L603ZdNuVJfsSqqj6Z_VbSqlI62g0dBLklZpFpmNS5O2/exec?action=getStaffNames');
     
     // ตรวจสอบการตอบกลับจากเซิร์ฟเวอร์
     if (!response.ok) {
@@ -245,7 +245,7 @@
       staffName,
     });
 
-    const response = await fetch(`https://script.google.com/macros/s/AKfycbzlPcKu2jyLIny0qT0I1MI5LsFNkIahPgs8XuA2T6Ec0Sdqxry3RIO8q_6oqIStT67U/exec?${query}`, {
+    const response = await fetch(`https://script.google.com/macros/s/AKfycbypXLdJ2ygBFYQRUf2gfQJ2L603ZdNuVJfsSqqj6Z_VbSqlI62g0dBLklZpFpmNS5O2/exec?${query}`, {
       method: 'GET',
     });
 
@@ -357,7 +357,7 @@
     // ตรวจสอบสถานะและเลือก method ที่จะส่งไป
     const method = statusMessage.includes("กรุณา Clock In") ? "uploadClockInData" : "uploadClockOutData";
 
-    const response = await fetch('https://script.google.com/macros/s/AKfycbzlPcKu2jyLIny0qT0I1MI5LsFNkIahPgs8XuA2T6Ec0Sdqxry3RIO8q_6oqIStT67U/exec', {
+    const response = await fetch('https://script.google.com/macros/s/AKfycbypXLdJ2ygBFYQRUf2gfQJ2L603ZdNuVJfsSqqj6Z_VbSqlI62g0dBLklZpFpmNS5O2/exec', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
