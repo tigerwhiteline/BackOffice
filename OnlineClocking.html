@@ -193,7 +193,7 @@
 
         async function loadStaffNames() {
   try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbxyfuabauyZGxJNu7YkYmq5pZUD8E4QL3b6KF37BNMRxYBQbxrZD5bkaGt3uRmU6eoa/exec?action=getStaffNames');
+    const response = await fetch('https://script.google.com/macros/s/AKfycbxsiXYUSGja0-lpeW7R4x-vlBsrRU7pJBAW6C0fcDgijmh_xKBbkoqB4krjgNlBNIft/exec?action=getStaffNames');
     
     // ตรวจสอบการตอบกลับจากเซิร์ฟเวอร์
     if (!response.ok) {
@@ -245,7 +245,7 @@
       staffName,
     });
 
-    const response = await fetch(`https://script.google.com/macros/s/AKfycbxyfuabauyZGxJNu7YkYmq5pZUD8E4QL3b6KF37BNMRxYBQbxrZD5bkaGt3uRmU6eoa/exec?${query}`, {
+    const response = await fetch(`https://script.google.com/macros/s/AKfycbxsiXYUSGja0-lpeW7R4x-vlBsrRU7pJBAW6C0fcDgijmh_xKBbkoqB4krjgNlBNIft/exec?${query}`, {
       method: 'GET',
     });
 
@@ -349,7 +349,7 @@
     document.getElementById('result-message').style.display = 'none';
 
     // กำหนด URL ของ Web App
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbxyfuabauyZGxJNu7YkYmq5pZUD8E4QL3b6KF37BNMRxYBQbxrZD5bkaGt3uRmU6eoa/exec";
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbxsiXYUSGja0-lpeW7R4x-vlBsrRU7pJBAW6C0fcDgijmh_xKBbkoqB4krjgNlBNIft/exec";
 
     // เตรียมข้อมูลที่ต้องการส่ง
     const requestData = {
