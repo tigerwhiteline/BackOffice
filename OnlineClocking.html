@@ -194,7 +194,7 @@
 
         async function loadStaffNames() {
   try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbyxEekIzkhcEKbiPv7-ua0Zr-3pjoq2YjZKrOJ3ntSBR0R2pYqP8s5fgCtfsotNMe5V/exec?action=getStaffNames');
+    const response = await fetch('https://script.google.com/macros/s/AKfycbzCsoO0w4KMFjXGLdf264dO_4pi-N2pAQ8uNuDXgSmh3hlz9QjXE34le2MkG3ZhvAny/exec?action=getStaffNames');
     
     // ตรวจสอบการตอบกลับจากเซิร์ฟเวอร์
     if (!response.ok) {
@@ -246,7 +246,7 @@
       staffName,
     });
 
-    const response = await fetch(`https://script.google.com/macros/s/AKfycbyxEekIzkhcEKbiPv7-ua0Zr-3pjoq2YjZKrOJ3ntSBR0R2pYqP8s5fgCtfsotNMe5V/exec?${query}`, {
+    const response = await fetch(`https://script.google.com/macros/s/AKfycbzCsoO0w4KMFjXGLdf264dO_4pi-N2pAQ8uNuDXgSmh3hlz9QjXE34le2MkG3ZhvAny/exec?${query}`, {
       method: 'GET',
     });
 
@@ -371,7 +371,7 @@
     document.getElementById('result-message').style.display = 'none';
 
     // 4. ตั้งค่า URL ของ Google Apps Script
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbyxEekIzkhcEKbiPv7-ua0Zr-3pjoq2YjZKrOJ3ntSBR0R2pYqP8s5fgCtfsotNMe5V/exec";
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbzCsoO0w4KMFjXGLdf264dO_4pi-N2pAQ8uNuDXgSmh3hlz9QjXE34le2MkG3ZhvAny/exec";
     console.log("ส่งข้อมูลไปยัง:", webAppUrl);
 
     // 5. เตรียมข้อมูลสำหรับส่ง
