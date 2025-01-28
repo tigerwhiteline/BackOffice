@@ -20,15 +20,15 @@
             box-sizing: border-box;
         }
         .logo {
-            width: 250px;
+            width: 250px; /* ปรับขนาดโลโก้ */
             height: auto;
-            margin-bottom: 0px;
+            margin-bottom: 1px;
         }
         .title {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #bb463C;
-            margin-bottom: 15px;
+            font-size: 1.0em; /* ปรับขนาดฟอนต์ให้ใหญ่ขึ้น */
+            font-weight: bold; /* ตัวหนา */
+            color: #bb463C; /* เปลี่ยนสีเป็นสีแดงโทน */
+            margin-bottom: 25px; /* ลดระยะห่าง */
         }
         .container {
             text-align: center;
@@ -79,7 +79,10 @@
         }
         @media (max-width: 768px) {
             .logo {
-                width: 150px;
+                width: 200px;
+            }
+            .title {
+                font-size: 1.5em; /* ปรับขนาดฟอนต์ให้เล็กลง */
             }
             .form-row input, .form-row select {
                 font-size: 0.9em;
