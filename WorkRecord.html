@@ -154,6 +154,20 @@
     max-height: 40px; /* กำหนดความสูงสูงสุดให้เล็กลงอีก */
   }
 }
+        .gps-animation {
+    font-size: 2em; /* ขนาดของรูป 🥩 */
+    animation: moveLeftRight 1s infinite alternate ease-in-out;
+    margin-top: 20px; /* ระยะห่างจากข้อความด้านบน */
+}
+
+@keyframes moveLeftRight {
+    0% {
+        transform: translateX(-20px); /* ขยับไปทางซ้าย */
+    }
+    100% {
+        transform: translateX(20px); /* ขยับไปทางขวา */
+    }
+}
     </style>
 </head>
 <body>
@@ -169,6 +183,7 @@
     <button onclick="checkStaff()">LOGIN</button>
     <div class="progress" id="loading-progress"></div>
     <div class="message" id="message"></div>
+    <div class="gps-animation" id="gps-animation" style="display: none;">🥩</div>
     
 
     <script>
@@ -247,8 +262,9 @@ function checkStaff() {
             document.getElementById('message').innerText = data;
         // หาก LOGIN สำเร็จ (สมมติว่า data มีข้อความ "Login successful")
             if (data.includes("Hello")) {
-                // แสดงข้อความ "GPS Checking .."
-                document.getElementById('message').innerText += "\nGPS Checking ..";
+                // แสดงแอนิเมชั่นรูป 🥩
+                const gpsAnimation = document.getElementById('gps-animation');
+                gpsAnimation.style.display = 'block';
 
                 // ตรวจสอบพิกัด
                 navigator.geolocation.getCurrentPosition(position => {
@@ -260,19 +276,23 @@ function checkStaff() {
 
                     // คำนวณระยะห่าง
                     const distance = getDistance(userLat, userLong, storeLat, storeLong);
-
+                    
+                     // ซ่อนแอนิเมชั่นรูป 🥩
+                    gpsAnimation.style.display = 'none';
                     if (distance <= radius) {
                         document.getElementById('message').innerText += "\nพิกัดถูกต้อง กำลังเข้าสู่ระบบ";
                         
                         // หน่วงเวลา 3 วินาที แล้วรีไดเรก
                         setTimeout(() => {
                             window.location.href = "https://tigerwhiteline.github.io/BackOffice/OnlineClocking.html";
-                        }, 3000);
+                        }, 5000);
                     } else {
                         document.getElementById('message').innerText += "\nพิกัดของคุณไม่ถูกต้อง ไม่สามารถเข้าสู่ระบบได้";
                     }
                 }, error => {
                     console.error('Error:', error);
+                    // ซ่อนแอนิเมชั่นรูป 🥩
+                    gpsAnimation.style.display = 'none';
                     document.getElementById('message').innerText += "\nเกิดข้อผิดพลาดในการตรวจสอบพิกัด";
                 });
             }
