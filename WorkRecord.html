@@ -306,9 +306,11 @@ function checkStaff() {
                         
                         // หน่วงเวลา 4 วินาที แล้วรีไดเรก
                         setTimeout(() => {
-                            // เพิ่มชื่อพนักงานใน URL พร้อม encode
+                           setTimeout(() => {
+                        // เพิ่มชื่อพนักงานใน URL พร้อม encode
                         const encodedName = encodeURIComponent(staffName);
                         window.location.href = `https://tigerwhiteline.github.io/BackOffice/OnlineClocking.html?name=${encodedName}`;
+                    }, 4000);
                     } else {
                         // ข้อความ "พิกัดของคุณไม่ถูกต้อง ไม่สามารถเข้าสู่ระบบได้" (สีแดง)
                         messageElement.style.color = '#bb463C'; // สีแดง
