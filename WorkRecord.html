@@ -7,6 +7,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* เพิ่ม CSS ที่นี่ */
+        .hidden-content {
+            display: none;
+        }
+
+        #initial-animation {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4em;
+            animation: moveLeftRight 1s infinite alternate ease-in-out;
+        }
+
+        @keyframes moveLeftRight {
+            0% {
+                transform: translate(-60%, -50%);
+            }
+            100% {
+                transform: translate(-40%, -50%);
+            }
+        }
+
         body {
             font-family: 'Noto Sans Thai', sans-serif;
             display: flex;
@@ -20,19 +43,20 @@
             padding: 20px;
             box-sizing: border-box;
         }
-        
+
         .logo {
-            width: 250px; /* ปรับขนาดโลโก้ */
+            width: 250px;
             height: auto;
             margin-bottom: 1px;
         }
-        
+
         .title {
-            font-size: 1.0em; /* ปรับขนาดฟอนต์ให้ใหญ่ขึ้น */
-            font-weight: bold; /* ตัวหนา */
-            color: #bb463C; /* เปลี่ยนสีเป็นสีแดงโทน */
-            margin-bottom: 25px; /* ลดระยะห่าง */
+            font-size: 1.0em;
+            font-weight: bold;
+            color: #bb463C;
+            margin-bottom: 25px;
         }
+
         button {
             background-color: #bb463C;
             color: white;
@@ -43,21 +67,24 @@
             border-radius: 4px;
             margin: 25px;
         }
+
         button:hover {
             background-color: #a83c3c;
         }
+
         button[type="submit"] {
             margin: 0 auto;
             display: block;
         }
-        .loading {
-  font-size: 1.5em;
-  color: #000;
-  margin-bottom: 10px;
-  text-align: center;
-}
 
-.progress {
+        .loading {
+            font-size: 1.5em;
+            color: #000;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .progress {
             width: 134.4px;
             height: 24.6px;
             border-radius: 22.4px;
@@ -67,6 +94,7 @@
             margin: 0 auto;
             display: none;
         }
+
         .progress::before {
             content: "";
             position: absolute;
@@ -76,273 +104,256 @@
             background: currentColor;
             animation: progress-pf82op 2s infinite;
         }
+
         @keyframes progress-pf82op {
             100% {
                 inset: 0;
             }
         }
-        
+
         .message {
-            font-size: 1.5em; /* ปรับขนาดฟอนต์ */
+            font-size: 1.5em;
             margin-top: 10px;
-            text-align: center; /* จัดข้อความให้อยู่ตรงกลางแนวนอน */
-            justify-content: center; /* จัดข้อความให้อยู่ตรงกลางแนวนอน */
-            align-items: center; /* จัดข้อความให้อยู่ตรงกลางแนวตั้ง */
+            text-align: center;
+            justify-content: center;
+            align-items: center;
         }
-        
-        
-        
+
         @media (max-width: 768px) {
             .logo {
-                width: 200px; /* ปรับขนาดโลโก้ให้เล็กลง */
+                width: 200px;
             }
             .title {
-                font-size: 1.5em; /* ปรับขนาดฟอนต์ให้เล็กลง */
+                font-size: 1.5em;
             }
             .loading {
-                font-size: 1.2em; /* ปรับขนาดฟอนต์ให้เล็กลง */
+                font-size: 1.2em;
             }
             .message {
-                font-size: 1.2em; /* ปรับขนาดฟอนต์ให้เล็กลง */
-            }
+                font-size: 1.2em;
             }
         }
-/* เพิ่ม CSS สำหรับจัดตำแหน่งให้อยู่ตรงกลาง */
-#loading-progress,
-#message,
-#gps-animation {
-    text-align: center;
-    margin: 10px auto; /* จัดให้อยู่กลางและเพิ่มระยะห่างด้านบนและล่าง */
-}
 
+        #loading-progress,
+        #message,
+        #gps-animation {
+            text-align: center;
+            margin: 10px auto;
+        }
 
+        #otp-input input {
+            text-align: center;
+            padding: 8px;
+            border: 1px solid #adadad;
+            border-radius: 8px;
+            outline: none;
+            height: 12vw;
+            width: 12vw;
+            max-width: 60px;
+            max-height: 60px;
+            font-size: 5vw;
+            transition: border-color 0.3s ease;
+        }
 
-#otp-input input {
-  text-align: center;
-  padding: 8px; /* ลด padding เพื่อให้ช่องกรอกเล็กลง */
-  border: 1px solid #adadad;
-  border-radius: 8px;
-  outline: none;
-  height: 12vw; /* ปรับความสูงให้เหมาะสม */
-  width: 12vw; /* ปรับความกว้างให้เหมาะสม */
-  max-width: 60px; /* กำหนดขนาดสูงสุดเพื่อไม่ให้ช่องกรอกใหญ่เกินไป */
-  max-height: 60px; /* กำหนดความสูงสูงสุด */
-  font-size: 5vw; /* ปรับขนาดฟอนต์ให้เหมาะสม */
-  transition: border-color 0.3s ease;
-}
+        #otp-input input:focus {
+            border-color: #497e76;
+        }
 
-#otp-input input:focus {
-  border-color: #497e76;
-}
+        #otp-input input:focus::placeholder {
+            color: transparent;
+        }
 
-#otp-input input:focus::placeholder {
-  color: transparent;
-}
+        #otp-input input::-webkit-outer-spin-button,
+        #otp-input input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
 
-#otp-input input::-webkit-outer-spin-button,
-#otp-input input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
+        #otp-input input[type="number"] {
+            -moz-appearance: textfield;
+        }
 
-#otp-input input[type="number"] {
-  -moz-appearance: textfield; /* Firefox */
-}
+        @media (max-width: 360px) {
+            #otp-input input {
+                width: 12vw;
+                height: 12vw;
+                font-size: 5vw;
+                max-width: 40px;
+                max-height: 40px;
+            }
+        }
 
-
-
-@media (max-width: 360px) {
-  #otp-input input {
-    width: 12vw; /* ปรับขนาดให้เล็กลงอีกสำหรับหน้าจอที่เล็กมาก */
-    height: 12vw;
-    font-size: 5vw; /* ปรับขนาดฟอนต์ให้เล็กลงอีก */
-    max-width: 40px; /* กำหนดขนาดสูงสุดให้เล็กลงอีก */
-    max-height: 40px; /* กำหนดความสูงสูงสุดให้เล็กลงอีก */
-  }
-}
         .gps-animation {
-    font-size: 2em; /* ขนาดของรูป 🥩 */
-    animation: moveLeftRight 1s infinite alternate ease-in-out;
-    margin-top: 20px; /* ระยะห่างจากข้อความด้านบน */
-}
+            font-size: 2em;
+            animation: moveLeftRight 1s infinite alternate ease-in-out;
+            margin-top: 20px;
+        }
 
-@keyframes moveLeftRight {
-    0% {
-        transform: translateX(-20px); /* ขยับไปทางซ้าย */
-    }
-    100% {
-        transform: translateX(20px); /* ขยับไปทางขวา */
-    }
-}
+        @keyframes moveLeftRight {
+            0% {
+                transform: translateX(-20px);
+            }
+            100% {
+                transform: translateX(20px);
+            }
+        }
     </style>
 </head>
 <body>
     <img class="logo" src="https://tigerwhiteline.github.io/BackOffice/logo.png" alt="โลโก้ร้าน">
     <h1 class="title">TIGER | WHITE | LINE</h1>
     <div id="otp-input">
-  <input placeholder="_" type="number" step="1" min="0" max="9" autocomplete="off" pattern="\d*" />
-  <input placeholder="_" type="number" step="1" min="0" max="9" autocomplete="off" pattern="\d*" />
-  <input placeholder="_" type="number" step="1" min="0" max="9" autocomplete="off" pattern="\d*" />
-  <input placeholder="_" type="number" step="1" min="0" max="9" autocomplete="off" pattern="\d*" />
-  <input id="otp-value" type="hidden" name="otp" />
-</div>
+        <input placeholder="_" type="number" step="1" min="0" max="9" autocomplete="off" pattern="\d*" />
+        <input placeholder="_" type="number" step="1" min="0" max="9" autocomplete="off" pattern="\d*" />
+        <input placeholder="_" type="number" step="1" min="0" max="9" autocomplete="off" pattern="\d*" />
+        <input placeholder="_" type="number" step="1" min="0" max="9" autocomplete="off" pattern="\d*" />
+        <input id="otp-value" type="hidden" name="otp" />
+    </div>
     <button onclick="checkStaff()">LOGIN</button>
-    
+
     <div class="progress" id="loading-progress"></div>
     <div class="message" id="message"></div>
     <div class="gps-animation" id="gps-animation" style="display: none;">🥩</div>
-    
 
     <script>
+        // เพิ่ม JavaScript ที่นี่
         document.addEventListener('DOMContentLoaded', () => {
-  const otpInputs = document.querySelectorAll('#otp-input input[type="number"]');
-  const otpValue = document.getElementById('otp-value');
+            // ซ่อนเนื้อหาหลักทั้งหมด
+            const content = document.querySelector('body');
+            content.classList.add('hidden-content');
 
-  // ฟังก์ชันสำหรับจัดการการป้อนข้อมูล
-  function handleInput(event) {
-    const input = event.target;
-    const value = input.value;
+            // แสดงแอนิเมชั่นเริ่มต้น
+            const initialAnimation = document.createElement('div');
+            initialAnimation.id = 'initial-animation';
+            initialAnimation.innerText = '🥩';
+            document.body.appendChild(initialAnimation);
 
-    // หากผู้ใช้ป้อนค่ามากกว่า 1 ตัว (เช่น คัดลอกและวาง)
-    if (value.length > 1) {
-      const digits = value.split('');
-      digits.forEach((digit, index) => {
-        if (otpInputs[index]) {
-          otpInputs[index].value = digit;
-        }
-      });
-      input.value = ''; // ล้างค่าที่ป้อนเกิน
-      otpInputs[digits.length - 1].focus(); // ย้ายโฟกัสไปยังช่องสุดท้ายที่ถูกกรอก
-    } else if (value.length === 1) {
-      // ย้ายโฟกัสไปยังช่องถัดไป
-      const nextInput = input.nextElementSibling;
-      if (nextInput) {
-        nextInput.focus();
-      }
-    }
+            // หน่วงเวลา 4 วินาที
+            setTimeout(() => {
+                // ลบแอนิเมชั่นเริ่มต้น
+                initialAnimation.remove();
 
-    // อัปเดตค่า OTP ทั้งหมดใน hidden input
-    updateOTPValue();
-  }
-
-  // ฟังก์ชันสำหรับจัดการการลบข้อมูล
-  function handleKeyDown(event) {
-    const input = event.target;
-    if (event.key === 'Backspace' && input.value === '') {
-      // ย้ายโฟกัสไปยังช่องก่อนหน้า
-      const prevInput = input.previousElementSibling;
-      if (prevInput) {
-        prevInput.focus();
-      }
-    }
-  }
-
-  // ฟังก์ชันสำหรับอัปเดตค่า OTP ทั้งหมด
-  function updateOTPValue() {
-    const otp = Array.from(otpInputs).map(input => input.value).join('');
-    otpValue.value = otp;
-    console.log('OTP:', otp); // สำหรับทดสอบ
-  }
-
-  // เพิ่ม event listener ให้กับทุกช่องกรอก
-  otpInputs.forEach(input => {
-    input.addEventListener('input', handleInput);
-    input.addEventListener('keydown', handleKeyDown); // เพิ่มการจัดการปุ่มลบ
-  });
-});
-        
-function checkStaff() {
-    const otpInputs = document.querySelectorAll('#otp-input input[type="number"]');
-    const otp = Array.from(otpInputs).map(input => input.value).join('');
-    const apiUrl = 'https://script.google.com/macros/s/AKfycbxZhBH4V6mDYAqNO3n6mqAk18Z-UvO5bU3A1o8OgkXo6FEj6FkA3-I8WfNdR1PPee42/exec'; // แทนที่ด้วย URL ที่ได้จาก Google Apps Script
-    const messageElement = document.getElementById('message');
-    
-
-    // แสดงแถบ progress
-    document.getElementById('loading-progress').style.display = 'block';
-    
-
-    fetch(`${apiUrl}?action=checkOTP&otp=${otp}`)
-        .then(response => response.text())
-        .then(data => {
-        // ซ่อนแถบ progress
-        document.querySelector('.progress').style.display = 'none';
-
-            // ปรับแต่งข้อความผลลัพธ์
-        const cleanedData = data.replace(/"/g, ''); // ลบเครื่องหมาย "" ออก
-        document.getElementById('message').innerText = cleanedData;
-        
-        
-
-        // หาก LOGIN สำเร็จ (สมมติว่า data มีข้อความ "Login successful")
-            if (data.includes("Hello")) {
-                // แสดงแอนิเมชั่นรูป 🥩
-                const gpsAnimation = document.getElementById('gps-animation');
-                gpsAnimation.style.display = 'block';
-
-                // ตรวจสอบพิกัด
-                navigator.geolocation.getCurrentPosition(position => {
-                    const userLat = position.coords.latitude;
-                    const userLong = position.coords.longitude;
-                    const storeLat = 18.78093688888478; 
-                    const storeLong = 100.74660735424656;
-                    const radius = 50; // เมตร
-
-                    // คำนวณระยะห่าง
-                    const distance = getDistance(userLat, userLong, storeLat, storeLong);
-                    
-                     // ซ่อนแอนิเมชั่นรูป 🥩
-                    gpsAnimation.style.display = 'none';
-                    if (distance <= radius) {
-                        // ข้อความ "พิกัดถูกต้อง กำลังเข้าสู่ระบบ" (สีปกติ)
-                        messageElement.style.color = '#333'; // สีปกติ
-                        messageElement.innerText += "\nพิกัดถูกต้อง กำลังเข้าสู่ระบบ";
-                        
-                        // หน่วงเวลา 4 วินาที แล้วรีไดเรก
-                        setTimeout(() => {
-                            window.location.href = "https://tigerwhiteline.github.io/BackOffice/OnlineClocking.html";
-                        }, 4000);
-                    } else {
-                        // ข้อความ "พิกัดของคุณไม่ถูกต้อง ไม่สามารถเข้าสู่ระบบได้" (สีแดง)
-                        messageElement.style.color = '#bb463C'; // สีแดง
-                        messageElement.innerText += "\nพิกัดของคุณไม่ถูกต้อง ไม่สามารถเข้าสู่ระบบได้";
-                    }
-                }, error => {
-                    console.error('Error:', error);
-                    // ซ่อนแอนิเมชั่นรูป 🥩
-                    gpsAnimation.style.display = 'none';
-                     // ข้อความ "เกิดข้อผิดพลาดในการตรวจสอบพิกัด" (สีแดง)
-                    messageElement.style.color = '#bb463C'; // สีแดง
-                    messageElement.innerText += "\nเกิดข้อผิดพลาดในการตรวจสอบพิกัด";
-                });
-            }
-        })
-        .catch(error => {
-        // ซ่อนแถบ progress และแสดงข้อผิดพลาด
-          document.getElementById('loading-progress').style.display = 'none';
-            // ข้อความ "เกิดข้อผิดพลาดในการตรวจสอบ PIN CODE" (สีแดง)
-            messageElement.style.color = '#bb463C'; // สีแดง
-            messageElement.innerText = 'เกิดข้อผิดพลาดในการตรวจสอบ PIN CODE';
+                // แสดงเนื้อหาหลัก
+                content.classList.remove('hidden-content');
+            }, 5000);
         });
-}
 
-// ฟังก์ชันคำนวณระยะห่าง
-function getDistance(lat1, lon1, lat2, lon2) {
-    const R = 6371; // กิโลเมตร
-    const dLat = deg2rad(lat2 - lat1);
-    const dLon = deg2rad(lon2 - lon1);
-    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-        Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c * 1000; // เมตร
-    return distance;
-}
+        // ส่วนอื่น ๆ ของ JavaScript ที่มีอยู่เดิม
+        const otpInputs = document.querySelectorAll('#otp-input input[type="number"]');
+        const otpValue = document.getElementById('otp-value');
 
-// ฟังก์ชันแปลงองศาเป็นเรเดียน
-function deg2rad(deg) {
-    return deg * (Math.PI / 180);
-}
+        function handleInput(event) {
+            const input = event.target;
+            const value = input.value;
+
+            if (value.length > 1) {
+                const digits = value.split('');
+                digits.forEach((digit, index) => {
+                    if (otpInputs[index]) {
+                        otpInputs[index].value = digit;
+                    }
+                });
+                input.value = '';
+                otpInputs[digits.length - 1].focus();
+            } else if (value.length === 1) {
+                const nextInput = input.nextElementSibling;
+                if (nextInput) {
+                    nextInput.focus();
+                }
+            }
+
+            updateOTPValue();
+        }
+
+        function handleKeyDown(event) {
+            const input = event.target;
+            if (event.key === 'Backspace' && input.value === '') {
+                const prevInput = input.previousElementSibling;
+                if (prevInput) {
+                    prevInput.focus();
+                }
+            }
+        }
+
+        function updateOTPValue() {
+            const otp = Array.from(otpInputs).map(input => input.value).join('');
+            otpValue.value = otp;
+            console.log('OTP:', otp);
+        }
+
+        otpInputs.forEach(input => {
+            input.addEventListener('input', handleInput);
+            input.addEventListener('keydown', handleKeyDown);
+        });
+
+        function checkStaff() {
+            const otpInputs = document.querySelectorAll('#otp-input input[type="number"]');
+            const otp = Array.from(otpInputs).map(input => input.value).join('');
+            const apiUrl = 'https://script.google.com/macros/s/AKfycbxZhBH4V6mDYAqNO3n6mqAk18Z-UvO5bU3A1o8OgkXo6FEj6FkA3-I8WfNdR1PPee42/exec';
+            const messageElement = document.getElementById('message');
+
+            document.getElementById('loading-progress').style.display = 'block';
+
+            fetch(`${apiUrl}?action=checkOTP&otp=${otp}`)
+                .then(response => response.text())
+                .then(data => {
+                    document.querySelector('.progress').style.display = 'none';
+                    const cleanedData = data.replace(/"/g, '');
+                    document.getElementById('message').innerText = cleanedData;
+
+                    if (data.includes("Hello")) {
+                        const gpsAnimation = document.getElementById('gps-animation');
+                        gpsAnimation.style.display = 'block';
+
+                        navigator.geolocation.getCurrentPosition(position => {
+                            const userLat = position.coords.latitude;
+                            const userLong = position.coords.longitude;
+                            const storeLat = 18.78093688888478;
+                            const storeLong = 100.74660735424656;
+                            const radius = 50;
+
+                            const distance = getDistance(userLat, userLong, storeLat, storeLong);
+                            gpsAnimation.style.display = 'none';
+                            if (distance <= radius) {
+                                messageElement.style.color = '#333';
+                                messageElement.innerText += "\nพิกัดถูกต้อง กำลังเข้าสู่ระบบ";
+                                setTimeout(() => {
+                                    window.location.href = "https://tigerwhiteline.github.io/BackOffice/OnlineClocking.html";
+                                }, 4000);
+                            } else {
+                                messageElement.style.color = '#bb463C';
+                                messageElement.innerText += "\nพิกัดของคุณไม่ถูกต้อง ไม่สามารถเข้าสู่ระบบได้";
+                            }
+                        }, error => {
+                            console.error('Error:', error);
+                            gpsAnimation.style.display = 'none';
+                            messageElement.style.color = '#bb463C';
+                            messageElement.innerText += "\nเกิดข้อผิดพลาดในการตรวจสอบพิกัด";
+                        });
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('loading-progress').style.display = 'none';
+                    messageElement.style.color = '#bb463C';
+                    messageElement.innerText = 'เกิดข้อผิดพลาดในการตรวจสอบ PIN CODE';
+                });
+        }
+
+        function getDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371;
+            const dLat = deg2rad(lat2 - lat1);
+            const dLon = deg2rad(lon2 - lon1);
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            const distance = R * c * 1000;
+            return distance;
+        }
+
+        function deg2rad(deg) {
+            return deg * (Math.PI / 180);
+        }
     </script>
 </body>
 </html>
