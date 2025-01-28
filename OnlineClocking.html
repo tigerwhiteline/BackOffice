@@ -317,8 +317,14 @@
                           hour12: false, // ใช้รูปแบบ 24 ชั่วโมง
                           timeZone: 'Asia/Bangkok' // ตั้งค่าเขตเวลาเป็นประเทศไทย
                         };
-                        const timestamp = new Date().toLocaleString('th-TH', options);
-                        console.log(timestamp); // ผลลัพธ์ประมาณ dd/mm/yyyy(TH) , 14:53:38
+                        const timestampFormatted = new Date().toLocaleString('th-TH', options);
+                        // แยกส่วนของวันที่และเวลา
+                        const [datePart, timePart] = timestampFormatted.split(' ');
+
+                        // รวมสตริงใหม่ โดยใส่เครื่องหมายจุลภาค
+                        const timestamp = `${datePart}, ${timePart}`;
+
+                        console.log(timestamp); // ผลลัพธ์: dd/mm/yyyy(TH), 14:53:38
 
                         ctx.font = '20px Noto Sans Thai';
                         ctx.fillStyle = '#bb463C';
