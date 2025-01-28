@@ -378,20 +378,12 @@
     };
 
     // 6. ใช้ Fetch API ส่งข้อมูล
-    fetch(webAppUrl, {
-    method: 'OPTIONS',
-    headers: {
-        'Content-Type': 'text/plain',
-    }
-}).then(() => {
-    return fetch(webAppUrl, {
+  fetch(webAppUrl, {
         method: 'POST',
         headers: {    
-            'Content-Type': 'text/plain' // ตั้งค่า Content-Type เป็น text/plain
+            'Content-Type': 'application/json' // ตั้งค่า Content-Type เป็น text/plain
         },
         body: JSON.stringify(requestData), // แปลงข้อมูลเป็น JSON String
-        // เพิ่ม mode: 'cors' เพื่อบังคับใช้ CORS
-        mode: 'cors',
     })
     .then((response) => {
         // 7. ตรวจสอบสถานะการตอบกลับ
