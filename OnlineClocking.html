@@ -344,7 +344,7 @@
                         ctx.fillText(`Lat: ${latitude}`, 20, canvas.height - lineHeight * 4);
                         ctx.fillText(`Lon: ${longitude}`, 20, canvas.height - lineHeight * 5);
 
-                        locationInfo.textContent = ${timestamp} | พิกัด: ละติจูด ${latitude} | ลองจิจูด ${longitude}`;
+                        locationInfo.textContent = `${timestamp} | พิกัด: ละติจูด ${latitude} | ลองจิจูด ${longitude}`;
 
                         capturedImage.src = canvas.toDataURL('image/png');
                         capturedImage.style.display = 'block';
