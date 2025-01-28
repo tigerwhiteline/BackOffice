@@ -347,7 +347,7 @@
 
         document.getElementById('capture-button').addEventListener('click', captureImage);
 
-    function submitData() {
+    async function submitData() {
     // 1. ดึงข้อมูลจากฟอร์ม
     const capturedImage = document.getElementById('captured-image').src;
     const staffName = document.getElementById('staff').value;
@@ -380,25 +380,26 @@
     // 6. ใช้ Fetch API ส่งข้อมูล
   fetch(webAppUrl, {
         method: 'POST',
+        mode: 'cors',
         headers: {    
-            'Content-Type': 'text/plain' // ตั้งค่า Content-Type เป็น text/plain
+            'Content-Type': 'application/json', // Crucial! 'text/plain' 
         },
         body: JSON.stringify(requestData), // แปลงข้อมูลเป็น JSON String
     })
     .then((response) => {
         // 7. ตรวจสอบสถานะการตอบกลับ
         if (!response.ok) {
-            throw new Error(`เกิดข้อผิดพลาด HTTP! สถานะ: ${response.status}`);
+            throw new Error('Network response was not ok');
         }
         return response.json();
     })
-    .then((data) => {
+    .then((Data) => {
         // 8. ประมวลผลผลลัพธ์สำเร็จ
         console.log("ผลลัพธ์:", data);
         document.getElementById('loading-animation').style.display = 'none';
         document.getElementById('result-message').style.display = 'block';
 
-        if (data.success) {
+        if (Data.success) {
             // 9. แสดงข้อความสำเร็จและรีเซ็ตฟอร์ม
             document.getElementById('result-message').textContent = data.message;
             document.getElementById('result-message').style.color = 'green';
