@@ -90,26 +90,27 @@
                 height: 16px; /* ปรับขนาดแอนิเมชั่นให้เล็กลง */
             }
         }
-            #otp-input {
+           #otp-input {
   display: flex;
   justify-content: center;
-  column-gap: 4px; /* ลดระยะห่างระหว่างช่องกรอก */
+  column-gap: 8px; /* เพิ่มระยะห่างระหว่างช่องกรอก */
 }
 
 #otp-input input {
   text-align: center;
-  padding: 8px; /* ปรับ padding ให้เล็กลง */
+  padding: 10px; /* เพิ่ม padding เพื่อให้ช่องกรอกดูโปร่งขึ้น */
   border: 1px solid #adadad;
-  border-radius: 4px;
+  border-radius: 8px; /* ปรับขอบมนมากขึ้น */
   outline: none;
-  height: 50px; /* ปรับความสูงให้เล็กลง */
-  width: 12%; /* ใช้เปอร์เซ็นต์เพื่อให้ปรับตามความกว้างของหน้าจอ */
-  max-width: 50px; /* กำหนดขนาดสูงสุดเพื่อไม่ให้ช่องกรอกใหญ่เกินไป */
-  font-size: 1.2em; /* ปรับขนาดฟอนต์ให้เหมาะสม */
+  height: 60px; /* ปรับความสูงให้มากขึ้น */
+  width: 60px; /* ปรับความกว้างให้มากขึ้น */
+  max-width: 80px; /* กำหนดขนาดสูงสุด */
+  font-size: 1.5em; /* ปรับขนาดฟอนต์ให้ใหญ่ขึ้น */
+  transition: border-color 0.3s ease; /* เพิ่มเอฟเฟกต์เมื่อโฟกัส */
 }
 
 #otp-input input:focus {
-  border: 1px solid #497e76;
+  border-color: #497e76; /* เปลี่ยนสีขอบเมื่อโฟกัส */
 }
 
 #otp-input input:focus::placeholder {
@@ -128,9 +129,9 @@
 
 @media (max-width: 480px) {
   #otp-input input {
-    width: 10%; /* ปรับขนาดให้เล็กลงสำหรับหน้าจอขนาดเล็ก */
-    height: 40px; /* ปรับความสูงให้เล็กลง */
-    font-size: 1em; /* ปรับขนาดฟอนต์ให้เล็กลง */
+    width: 50px; /* ปรับขนาดให้เล็กลงสำหรับหน้าจอขนาดเล็ก */
+    height: 50px; /* ปรับความสูงให้เล็กลง */
+    font-size: 1.2em; /* ปรับขนาดฟอนต์ให้เล็กลง */
   }
 }
     </style>
@@ -183,6 +184,18 @@
     updateOTPValue();
   }
 
+  // ฟังก์ชันสำหรับจัดการการลบข้อมูล
+  function handleKeyDown(event) {
+    const input = event.target;
+    if (event.key === 'Backspace' && input.value === '') {
+      // ย้ายโฟกัสไปยังช่องก่อนหน้า
+      const prevInput = input.previousElementSibling;
+      if (prevInput) {
+        prevInput.focus();
+      }
+    }
+  }
+
   // ฟังก์ชันสำหรับอัปเดตค่า OTP ทั้งหมด
   function updateOTPValue() {
     const otp = Array.from(otpInputs).map(input => input.value).join('');
@@ -193,6 +206,7 @@
   // เพิ่ม event listener ให้กับทุกช่องกรอก
   otpInputs.forEach(input => {
     input.addEventListener('input', handleInput);
+    input.addEventListener('keydown', handleKeyDown); // เพิ่มการจัดการปุ่มลบ
   });
 });
         // ตรวจสอบพิกัด
