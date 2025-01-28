@@ -104,6 +104,22 @@
             }
             }
         }
+/* เพิ่ม CSS สำหรับจัดตำแหน่งให้อยู่ตรงกลาง */
+#loading-progress,
+#message,
+#gps-animation {
+    text-align: center;
+    margin: 10px auto; /* จัดให้อยู่กลางและเพิ่มระยะห่างด้านบนและล่าง */
+}
+
+/* เพิ่ม CSS สำหรับจัดตำแหน่งให้อยู่ตรงกลางของหน้าจอ */
+.center-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* ทำให้เต็มความสูงของหน้าจอ */
+}
            #otp-input {
   display: flex;
   justify-content: center;
@@ -181,9 +197,10 @@
   <input id="otp-value" type="hidden" name="otp" />
 </div>
     <button onclick="checkStaff()">LOGIN</button>
+    <div class="center-container">
     <div class="progress" id="loading-progress"></div>
     <div class="message" id="message"></div>
-    <div class="gps-animation" id="gps-animation" style="display: none;">🥩</div>
+    <div class="gps-animation" id="gps-animation" style="display: none;">🥩</div></div>
     
 
     <script>
