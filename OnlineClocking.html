@@ -400,11 +400,9 @@
         document.getElementById('result-message').style.display = 'block';
 
         if (data.success) {
-            // 9. แสดงข้อความสำเร็จและรีเซ็ตฟอร์ม
+            // 9. แสดงข้อความสำเร็จแ
             document.getElementById('result-message').textContent = data.message;
             document.getElementById('result-message').style.color = 'green';
-            document.getElementById('captured-image').src = ''; // ลบรูปภาพ
-            document.getElementById('staff').value = ''; // ล้างชื่อพนักงาน
         } else {
             // 10. แสดงข้อความผิดพลาด
             document.getElementById('result-message').textContent = `เกิดข้อผิดพลาด: ${data.message}`;
