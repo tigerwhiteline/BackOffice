@@ -24,14 +24,14 @@
         .logo {
             width: 250px; /* ปรับขนาดโลโก้ */
             height: auto;
-            margin-bottom: 10px;
+            margin-bottom: 1px;
         }
         
         .title {
-            font-size: 2.0em; /* ปรับขนาดฟอนต์ให้ใหญ่ขึ้น */
+            font-size: 1.0em; /* ปรับขนาดฟอนต์ให้ใหญ่ขึ้น */
             font-weight: bold; /* ตัวหนา */
             color: #bb463C; /* เปลี่ยนสีเป็นสีแดงโทน */
-            margin-bottom: 15px; /* ลดระยะห่าง */
+            margin-bottom: 25px; /* ลดระยะห่าง */
         }
         button {
             background-color: #bb463C;
@@ -41,7 +41,7 @@
             font-size: 1.1em;
             cursor: pointer;
             border-radius: 4px;
-            margin: 10px;
+            margin: 25px;
         }
         button:hover {
             background-color: #a83c3c;
@@ -51,49 +51,52 @@
             display: block;
         }
         .loading {
-            font-size: 1.5em; /* ปรับขนาดฟอนต์ให้เล็กลง */
-            color: #000; /* เปลี่ยนสีเป็นสีดำ */
-            margin-bottom: 10px; /* เพิ่มช่องว่าง */
-        }
+  font-size: 1.5em;
+  color: #000;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.progress {
+  width: 134.4px;
+  height: 24.6px;
+  border-radius: 22.4px;
+  color: #bb463C;
+  border: 2.2px solid;
+  position: relative;
+  margin: 0 auto;
+  display: none; /* ซ่อนไว้ก่อน */
+}
+
+.progress::before {
+  content: "";
+  position: absolute;
+  margin: 2.2px;
+  inset: 0 100% 0 0;
+  border-radius: inherit;
+  background: currentColor;
+  animation: progress-pf82op 2s infinite;
+}
+
+@keyframes progress-pf82op {
+  100% {
+    inset: 0;
+  }
+}
         
         .message {
             font-size: 1.5em; /* ปรับขนาดฟอนต์ */
             margin-top: 10px;
         }
         
-        /* เพิ่มแอนิเมชั่น loading */
-        .progress {
-            width: 134.4px;
-            height: 24.6px;
-            border-radius: 22.4px;
-            color: #bb463C;
-            border: 2.2px solid;
-            position: relative;
-            margin: 0 auto;
-        }
         
-        .progress::before {
-            content: "";
-            position: absolute;
-            margin: 2.2px;
-            inset: 0 100% 0 0;
-            border-radius: inherit;
-            background: currentColor;
-            animation: progress-pf82op 2s infinite;
-        }
-        
-        @keyframes progress-pf82op {
-            100% {
-                inset: 0;
-            }
-        }
         
         @media (max-width: 768px) {
             .logo {
-                width: 150px; /* ปรับขนาดโลโก้ให้เล็กลง */
+                width: 200px; /* ปรับขนาดโลโก้ให้เล็กลง */
             }
             .title {
-                font-size: 2em; /* ปรับขนาดฟอนต์ให้เล็กลง */
+                font-size: 1.5em; /* ปรับขนาดฟอนต์ให้เล็กลง */
             }
             .loading {
                 font-size: 1.2em; /* ปรับขนาดฟอนต์ให้เล็กลง */
@@ -145,15 +148,7 @@
   -moz-appearance: textfield; /* Firefox */
 }
 
-@media (max-width: 480px) {
-  #otp-input input {
-    width: 14vw; /* ปรับขนาดให้เล็กลงสำหรับหน้าจอเล็ก */
-    height: 14vw;
-    font-size: 6vw; /* ปรับขนาดฟอนต์ให้เล็กลง */
-    max-width: 50px; /* กำหนดขนาดสูงสุดให้เล็กลง */
-    max-height: 50px; /* กำหนดความสูงสูงสุดให้เล็กลง */
-  }
-}
+
 
 @media (max-width: 360px) {
   #otp-input input {
@@ -177,8 +172,9 @@
   <input id="otp-value" type="hidden" name="otp" />
 </div>
     <button onclick="checkStaff()">LOGIN</button>
-    <div class="loading" id="loadingStatus">กำลังตรวจสอบพิกัด... <div class="progress"></div></div>
+    <div class="progress" id="loading-progress"></div>
     <div class="message" id="message"></div>
+    
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -281,6 +277,30 @@ function getDistance(lat1, lon1, lat2, lon2) {
 // ฟังก์ชันแปลงองศาเป็นเรเดียน
 function deg2rad(deg) {
     return deg * (Math.PI / 180);
+}
+function checkStaff() {
+    const otpInputs = document.querySelectorAll('#otp-input input[type="number"]');
+    const otp = Array.from(otpInputs).map(input => input.value).join('');
+    const apiUrl = 'https://script.google.com/macros/s/AKfycbweYG6qmnS7OO-dsEDzObpK2uFE684zcd_gaKp2nssnpIN6QnT3KA6hucw1B4z5CVh4/exec'; // แทนที่ด้วย URL ที่ได้จาก Google Apps Script
+    
+    // แสดงแถบ progress
+    document.getElementById('loading-progress').style.display = 'block';
+    
+
+    fetch(`${apiUrl}?action=checkOTP&otp=${otp}`)
+        .then(response => response.text())
+        .then(data => {
+        // ซ่อนแถบ progress
+        document.querySelector('.progress').style.display = 'none';
+
+            document.getElementById('message').innerText = data;
+        })
+        .catch(error => {
+        // ซ่อนแถบ progress และแสดงข้อผิดพลาด
+          document.getElementById('loading-progress').style.display = 'none';
+            console.error('Error:', error);
+            document.getElementById('message').innerText = 'เกิดข้อผิดพลาดในการตรวจสอบ OTP';
+        });
 }
     </script>
 </body>
