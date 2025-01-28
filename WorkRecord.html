@@ -139,19 +139,62 @@
     <img class="logo" src="https://tigerwhiteline.github.io/BackOffice/logo.png" alt="โลโก้ร้าน">
     <h1 class="title">ระบบลงชื่อเข้า-ออกงาน</h1>
     <div id="otp-input">
-  <input placeholder="_" type="number" step="1" min="0" max="9" autocomplete="no" pattern="\d*" />
-  <input placeholder="_" type="number" step="1" min="0" max="9" autocomplete="no" pattern="\d*" />
-  <input placeholder="_" type="number" step="1" min="0" max="9" autocomplete="no" pattern="\d*" />
-  <input placeholder="_" type="number" step="1" min="0" max="9" autocomplete="no" pattern="\d*" />
-  <input placeholder="_" type="number" step="1" min="0" max="9" autocomplete="no" pattern="\d*" />
-  <input placeholder="_" type="number" step="1" min="0" max="9" autocomplete="no" pattern="\d*" />
-  <input id="otp-value" placeholder="_" type="hidden" name="otp" />
+  <input placeholder="_" type="number" step="1" min="0" max="9" autocomplete="off" pattern="\d*" />
+  <input placeholder="_" type="number" step="1" min="0" max="9" autocomplete="off" pattern="\d*" />
+  <input placeholder="_" type="number" step="1" min="0" max="9" autocomplete="off" pattern="\d*" />
+  <input placeholder="_" type="number" step="1" min="0" max="9" autocomplete="off" pattern="\d*" />
+  <input placeholder="_" type="number" step="1" min="0" max="9" autocomplete="off" pattern="\d*" />
+  <input placeholder="_" type="number" step="1" min="0" max="9" autocomplete="off" pattern="\d*" />
+  <input id="otp-value" type="hidden" name="otp" />
 </div>
 
     <div class="loading" id="loadingStatus">กำลังตรวจสอบพิกัด... <div class="progress"></div></div>
     <div class="message" id="message"></div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+  const otpInputs = document.querySelectorAll('#otp-input input[type="number"]');
+  const otpValue = document.getElementById('otp-value');
+
+  // ฟังก์ชันสำหรับจัดการการป้อนข้อมูล
+  function handleInput(event) {
+    const input = event.target;
+    const value = input.value;
+
+    // หากผู้ใช้ป้อนค่ามากกว่า 1 ตัว (เช่น คัดลอกและวาง)
+    if (value.length > 1) {
+      const digits = value.split('');
+      digits.forEach((digit, index) => {
+        if (otpInputs[index]) {
+          otpInputs[index].value = digit;
+        }
+      });
+      input.value = ''; // ล้างค่าที่ป้อนเกิน
+      otpInputs[digits.length - 1].focus(); // ย้ายโฟกัสไปยังช่องสุดท้ายที่ถูกกรอก
+    } else if (value.length === 1) {
+      // ย้ายโฟกัสไปยังช่องถัดไป
+      const nextInput = input.nextElementSibling;
+      if (nextInput) {
+        nextInput.focus();
+      }
+    }
+
+    // อัปเดตค่า OTP ทั้งหมดใน hidden input
+    updateOTPValue();
+  }
+
+  // ฟังก์ชันสำหรับอัปเดตค่า OTP ทั้งหมด
+  function updateOTPValue() {
+    const otp = Array.from(otpInputs).map(input => input.value).join('');
+    otpValue.value = otp;
+    console.log('OTP:', otp); // สำหรับทดสอบ
+  }
+
+  // เพิ่ม event listener ให้กับทุกช่องกรอก
+  otpInputs.forEach(input => {
+    input.addEventListener('input', handleInput);
+  });
+});
         // ตรวจสอบพิกัด
         navigator.geolocation.getCurrentPosition(position => {
             const userLat = position.coords.latitude;
