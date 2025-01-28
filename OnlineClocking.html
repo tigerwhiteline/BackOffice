@@ -345,7 +345,7 @@
                         ctx.fillText(`Lon: ${longitude}`, 20, canvas.height - lineHeight * 1);
 
                         locationInfo.textContent = `วันที่และเวลา: ${timestamp} | พิกัด: ละติจูด ${latitude} | ลองติจูด ${longitude}`;
-                        locationInfo.style.display = 'non';
+                        locationInfo.style.display = 'none';
 
                         capturedImage.src = canvas.toDataURL('image/png');
                         capturedImage.style.display = 'block';
