@@ -304,6 +304,8 @@
             const ctx = canvas.getContext('2d');
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
+            const staffName = document.getElementById('staff').value;
+
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     position => {
@@ -328,8 +330,15 @@
 
                         console.log(timestamp); // ผลลัพธ์: dd/mm/yyyy(TH), 14:53:38
 
+                        ctx.font = '20px Noto Sans Thai'; // ขนาดและฟอนต์สำหรับข้อความอื่นๆ
+                        ctx.fillStyle = '#FFFFFF';
+
+                        // ข้อความชื่อพนักงาน ให้มีขนาด 60px และเป็นตัวหนา
+                        ctx.font = 'bold 60px Noto Sans Thai';
+                        ctx.fillText(`Name: ${staffName}`, 10, canvas.height - 90);
+
+                        // ข้อความอื่นๆ
                         ctx.font = '20px Noto Sans Thai';
-                        ctx.fillStyle = '#bb463C';
                         ctx.fillText(`Date/Time: ${timestamp}`, 10, canvas.height - 60);
                         ctx.fillText(`Lat: ${latitude}, Lon: ${longitude}`, 10, canvas.height - 30);
 
