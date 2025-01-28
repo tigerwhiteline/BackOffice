@@ -93,24 +93,26 @@
            #otp-input {
   display: flex;
   justify-content: center;
-  column-gap: 8px; /* เพิ่มระยะห่างระหว่างช่องกรอก */
+  column-gap: 2vw; /* ใช้ vw เพื่อให้ระยะห่างปรับตามหน้าจอ */
+  padding: 0 5vw; /* เพิ่ม padding ข้างๆ เพื่อไม่ให้ช่องกรอกติดขอบ */
 }
 
 #otp-input input {
   text-align: center;
-  padding: 10px; /* เพิ่ม padding เพื่อให้ช่องกรอกดูโปร่งขึ้น */
+  padding: 10px;
   border: 1px solid #adadad;
-  border-radius: 8px; /* ปรับขอบมนมากขึ้น */
+  border-radius: 8px;
   outline: none;
-  height: 60px; /* ปรับความสูงให้มากขึ้น */
-  width: 60px; /* ปรับความกว้างให้มากขึ้น */
-  max-width: 80px; /* กำหนดขนาดสูงสุด */
-  font-size: 1.5em; /* ปรับขนาดฟอนต์ให้ใหญ่ขึ้น */
-  transition: border-color 0.3s ease; /* เพิ่มเอฟเฟกต์เมื่อโฟกัส */
+  height: 12vw; /* ใช้ vw เพื่อปรับความสูงตามหน้าจอ */
+  width: 12vw; /* ใช้ vw เพื่อปรับความกว้างตามหน้าจอ */
+  max-width: 60px; /* กำหนดขนาดสูงสุดเพื่อไม่ให้ช่องกรอกใหญ่เกินไป */
+  max-height: 60px; /* กำหนดความสูงสูงสุด */
+  font-size: 5vw; /* ใช้ vw เพื่อปรับขนาดฟอนต์ตามหน้าจอ */
+  transition: border-color 0.3s ease;
 }
 
 #otp-input input:focus {
-  border-color: #497e76; /* เปลี่ยนสีขอบเมื่อโฟกัส */
+  border-color: #497e76;
 }
 
 #otp-input input:focus::placeholder {
@@ -129,9 +131,9 @@
 
 @media (max-width: 480px) {
   #otp-input input {
-    width: 50px; /* ปรับขนาดให้เล็กลงสำหรับหน้าจอขนาดเล็ก */
-    height: 50px; /* ปรับความสูงให้เล็กลง */
-    font-size: 1.2em; /* ปรับขนาดฟอนต์ให้เล็กลง */
+    width: 14vw; /* ปรับขนาดให้ใหญ่ขึ้นเล็กน้อยสำหรับหน้าจอเล็ก */
+    height: 14vw;
+    font-size: 6vw; /* ปรับขนาดฟอนต์ให้ใหญ่ขึ้นเล็กน้อย */
   }
 }
     </style>
