@@ -93,7 +93,7 @@
            #otp-input {
   display: flex;
   justify-content: center;
-  column-gap: 2vw; /* ใช้ vw เพื่อให้ระยะห่างปรับตามหน้าจอ */
+  column-gap: 3vw; /* เพิ่มระยะห่างระหว่างช่องกรอก */
   padding: 0 5vw; /* เพิ่ม padding ข้างๆ เพื่อไม่ให้ช่องกรอกติดขอบ */
 }
 
@@ -103,11 +103,11 @@
   border: 1px solid #adadad;
   border-radius: 8px;
   outline: none;
-  height: 10vw; /* ปรับความสูงให้เล็กลง */
-  width: 10vw; /* ปรับความกว้างให้เล็กลง */
-  max-width: 50px; /* กำหนดขนาดสูงสุดเพื่อไม่ให้ช่องกรอกใหญ่เกินไป */
-  max-height: 50px; /* กำหนดความสูงสูงสุด */
-  font-size: 4vw; /* ปรับขนาดฟอนต์ให้เล็กลง */
+  height: 12vw; /* ปรับความสูงให้เหมาะสม */
+  width: 12vw; /* ปรับความกว้างให้เหมาะสม */
+  max-width: 60px; /* กำหนดขนาดสูงสุดเพื่อไม่ให้ช่องกรอกใหญ่เกินไป */
+  max-height: 60px; /* กำหนดความสูงสูงสุด */
+  font-size: 5vw; /* ปรับขนาดฟอนต์ให้เหมาะสม */
   transition: border-color 0.3s ease;
 }
 
@@ -129,13 +129,23 @@
   -moz-appearance: textfield; /* Firefox */
 }
 
+@media (max-width: 480px) {
+  #otp-input input {
+    width: 14vw; /* ปรับขนาดให้เล็กลงสำหรับหน้าจอเล็ก */
+    height: 14vw;
+    font-size: 6vw; /* ปรับขนาดฟอนต์ให้เล็กลง */
+    max-width: 50px; /* กำหนดขนาดสูงสุดให้เล็กลง */
+    max-height: 50px; /* กำหนดความสูงสูงสุดให้เล็กลง */
+  }
+}
+
 @media (max-width: 360px) {
   #otp-input input {
-    width: 10vw; /* ปรับขนาดให้เล็กลงอีกสำหรับหน้าจอที่เล็กมาก */
-    height: 10vw;
-    font-size: 4vw; /* ปรับขนาดฟอนต์ให้เล็กลงอีก */
-    max-width: 35px; /* กำหนดขนาดสูงสุดให้เล็กลงอีก */
-    max-height: 35px; /* กำหนดความสูงสูงสุดให้เล็กลงอีก */
+    width: 12vw; /* ปรับขนาดให้เล็กลงอีกสำหรับหน้าจอที่เล็กมาก */
+    height: 12vw;
+    font-size: 5vw; /* ปรับขนาดฟอนต์ให้เล็กลงอีก */
+    max-width: 40px; /* กำหนดขนาดสูงสุดให้เล็กลงอีก */
+    max-height: 40px; /* กำหนดความสูงสูงสุดให้เล็กลงอีก */
   }
 }
     </style>
@@ -143,9 +153,7 @@
 <body>
     <img class="logo" src="https://tigerwhiteline.github.io/BackOffice/logo.png" alt="โลโก้ร้าน">
     <h1 class="title">ระบบลงชื่อเข้า-ออกงาน</h1>
-    <div id="otp-input">
-  <input placeholder="_" type="number" step="1" min="0" max="9" autocomplete="off" pattern="\d*" />
-  <input placeholder="_" type="number" step="1" min="0" max="9" autocomplete="off" pattern="\d*" />
+    <<div id="otp-input">
   <input placeholder="_" type="number" step="1" min="0" max="9" autocomplete="off" pattern="\d*" />
   <input placeholder="_" type="number" step="1" min="0" max="9" autocomplete="off" pattern="\d*" />
   <input placeholder="_" type="number" step="1" min="0" max="9" autocomplete="off" pattern="\d*" />
