@@ -336,7 +336,7 @@
 
                         // ข้อความชื่อพนักงาน ให้มีขนาด 60px และเป็นตัวหนา
                         ctx.font = 'bold 60px Noto Sans Thai';
-                        ctx.fillText(`🥩 ${staffName}`, 20, canvas.height - lineHeight * 5);
+                        ctx.fillText(`🥩 ${staffName}`, 20, canvas.height - lineHeight * 4);
 
                         // ข้อความอื่นๆ
                         ctx.font = '20px Noto Sans Thai';
@@ -344,7 +344,8 @@
                         ctx.fillText(`Lat: ${latitude}`, 20, canvas.height - lineHeight * 2);
                         ctx.fillText(`Lon: ${longitude}`, 20, canvas.height - lineHeight * 1);
 
-                        locationInfo.textContent = `${timestamp} | พิกัด: ละติจูด ${latitude} | ลองจิจูด ${longitude}`;
+                        locationInfo.textContent = `วันที่และเวลา: ${timestamp} | พิกัด: ละติจูด ${latitude} | ลองติจูด ${longitude}`;
+                        locationInfo.style.display = 'non';
 
                         capturedImage.src = canvas.toDataURL('image/png');
                         capturedImage.style.display = 'block';
