@@ -271,10 +271,9 @@ function checkStaff() {
             // ปรับแต่งข้อความผลลัพธ์
         const cleanedData = data.replace(/"/g, ''); // ลบเครื่องหมาย "" ออก
 
-        // แยกชื่อพนักงานจากข้อความตอบกลับ (รูปแบบ "Hello, ชื่อพนักงาน")
-            const staffName = cleanedData.includes(', ') 
-                ? cleanedData.split(', ')[1] 
-                : '';
+        // แยกชื่อพนักงานด้วย Regex ใหม่
+        const staffNameMatch = cleanedData.match(/Hello, 🥩 (.+)$/);
+        const staffName = staffNameMatch ? staffNameMatch[1] : '';
 
         document.getElementById('message').innerText = cleanedData;
         
