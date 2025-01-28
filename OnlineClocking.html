@@ -194,7 +194,7 @@
 
         async function loadStaffNames() {
   try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbyB2G1N13i3nMY2IQooqM7Q40JgiOp7h0rthyStT9o0cPOl7llgejTYfWDUAtdmU7T2/exec?action=getStaffNames');
+    const response = await fetch('https://script.google.com/macros/s/AKfycbwPcuqQCJLzlnSZmuDNtrtc3A5iC2ONzExQGRM0R2OMpPs8fyuERofxYfvTw7NJSdL5/exec?action=getStaffNames');
     
     // ตรวจสอบการตอบกลับจากเซิร์ฟเวอร์
     if (!response.ok) {
@@ -246,7 +246,7 @@
       staffName,
     });
 
-    const response = await fetch(`https://script.google.com/macros/s/AKfycbyB2G1N13i3nMY2IQooqM7Q40JgiOp7h0rthyStT9o0cPOl7llgejTYfWDUAtdmU7T2/exec?${query}`, {
+    const response = await fetch(`https://script.google.com/macros/s/AKfycbwPcuqQCJLzlnSZmuDNtrtc3A5iC2ONzExQGRM0R2OMpPs8fyuERofxYfvTw7NJSdL5/exec?${query}`, {
       method: 'GET',
     });
 
@@ -259,9 +259,7 @@
     const resultDiv = document.getElementById('result-message');
 
     resultDiv.textContent = result.message;
-    // รีเซ็ตกล้องและซ่อนภาพที่ถูกถ่าย
-    document.getElementById('captured-image').style.display = 'none';
-    document.getElementById('camera-section').style.display = 'none'; // ซ่อนกล้องก่อน
+    
 
     if (result.message === "กรุณา Clock In" || result.message === "กรุณา Clock Out") {
       initializeCamera(); // ฟังก์ชันเปิดกล้อง (ต้องมีการนิยามไว้)
@@ -375,7 +373,7 @@
     document.getElementById('result-message').style.display = 'none';
 
     // 4. ตั้งค่า URL ของ Google Apps Script
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbyB2G1N13i3nMY2IQooqM7Q40JgiOp7h0rthyStT9o0cPOl7llgejTYfWDUAtdmU7T2/exec";
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbwPcuqQCJLzlnSZmuDNtrtc3A5iC2ONzExQGRM0R2OMpPs8fyuERofxYfvTw7NJSdL5/exec";
     console.log("ส่งข้อมูลไปยัง:", webAppUrl);
 
     // 5. เตรียมข้อมูลสำหรับส่ง
