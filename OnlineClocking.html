@@ -330,19 +330,21 @@
 
                         console.log(timestamp); // ผลลัพธ์: dd/mm/yyyy(TH), 14:53:38
 
+                        const lineHeight = 30; // ปรับค่าตามต้องการ
                         ctx.font = '20px Noto Sans Thai'; // ขนาดและฟอนต์สำหรับข้อความอื่นๆ
                         ctx.fillStyle = '#FFFFFF';
 
                         // ข้อความชื่อพนักงาน ให้มีขนาด 60px และเป็นตัวหนา
                         ctx.font = 'bold 60px Noto Sans Thai';
-                        ctx.fillText(`Name: ${staffName}`, 10, canvas.height - 90);
+                        ctx.fillText(`🥩 ${staffName}`, 20, canvas.height - lineHeight * 2);
 
                         // ข้อความอื่นๆ
                         ctx.font = '20px Noto Sans Thai';
-                        ctx.fillText(`Date/Time: ${timestamp}`, 10, canvas.height - 60);
-                        ctx.fillText(`Lat: ${latitude}, Lon: ${longitude}`, 10, canvas.height - 30);
+                        ctx.fillText(`Date/Time: ${timestamp}`, 20, canvas.height - lineHeight * 3);
+                        ctx.fillText(`Lat: ${latitude}`, 20, canvas.height - lineHeight * 4);
+                        ctx.fillText(`Lon: ${longitude}`, 20, canvas.height - lineHeight * 5);
 
-                        locationInfo.textContent = `วันที่และเวลา: ${timestamp} | พิกัด: ละติจูด ${latitude} | ลองจิจูด ${longitude}`;
+                        locationInfo.textContent = ${timestamp} | พิกัด: ละติจูด ${latitude} | ลองจิจูด ${longitude}`;
 
                         capturedImage.src = canvas.toDataURL('image/png');
                         capturedImage.style.display = 'block';
