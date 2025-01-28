@@ -28,12 +28,28 @@
         }
         
         .title {
-            font-size: 2.5em; /* ปรับขนาดฟอนต์ให้ใหญ่ขึ้น */
+            font-size: 2.0em; /* ปรับขนาดฟอนต์ให้ใหญ่ขึ้น */
             font-weight: bold; /* ตัวหนา */
             color: #bb463C; /* เปลี่ยนสีเป็นสีแดงโทน */
             margin-bottom: 15px; /* ลดระยะห่าง */
         }
-        
+        button {
+            background-color: #bb463C;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+            border-radius: 4px;
+            margin: 10px;
+        }
+        button:hover {
+            background-color: #a83c3c;
+        }
+        button[type="submit"] {
+            margin: 0 auto;
+            display: block;
+        }
         .loading {
             font-size: 1.5em; /* ปรับขนาดฟอนต์ให้เล็กลง */
             color: #000; /* เปลี่ยนสีเป็นสีดำ */
@@ -160,7 +176,7 @@
   <input placeholder="_" type="number" step="1" min="0" max="9" autocomplete="off" pattern="\d*" />
   <input id="otp-value" type="hidden" name="otp" />
 </div>
-
+    <button onclick="checkStaff()">LOGIN</button>
     <div class="loading" id="loadingStatus">กำลังตรวจสอบพิกัด... <div class="progress"></div></div>
     <div class="message" id="message"></div>
 
