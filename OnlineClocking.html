@@ -44,6 +44,7 @@
             justify-content: flex-start;
             align-items: center;
             margin-bottom: 15px;
+            cursor: not-allowed;
         }
         .form-row label {
             font-size: 1.1em;
@@ -130,10 +131,8 @@
             <input type="text" id="current-date" readonly>
         </div>
         <div class="form-row">
-            <label>ชื่อพนักงาน:</label>
-            <select id="staff">
-                <option value="">-- เลือกพนักงาน --</option>
-            </select>
+        <label>ชื่อพนักงาน:</label>
+        <input type="text" id="staff" readonly>
         </div>
         <button onclick="checkStaff()">ตรวจสอบ</button>
         <div class="progress" id="loading-progress"></div>
@@ -186,54 +185,33 @@
     </div>
 
     <script>
+        // เพิ่มโค้ดนี้ส่วนบนสุดของแท็ก <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const staffNameFromURL = urlParams.get('name');
+
+        if (!staffNameFromURL) {
+        alert('ไม่พบชื่อพนักงานใน URL กรุณาเข้าผ่านลิงก์ที่ถูกต้อง');
+        window.location.href = 'https://tigerwhiteline.github.io/BackOffice/WorkRecord.html'; // เปลี่ยนเส้นทางหากต้องการ
+        }
+
+        // ตั้งค่าชื่อพนักงานจาก URL
+        document.getElementById('staff').value = staffNameFromURL || 'ไม่พบชื่อพนักงาน';
+
         document.getElementById('current-date').value = new Date().toLocaleDateString('th-TH', {
   year: 'numeric',
   month: '2-digit',
   day: '2-digit'
 });
 
-        async function loadStaffNames() {
-  try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbwPcuqQCJLzlnSZmuDNtrtc3A5iC2ONzExQGRM0R2OMpPs8fyuERofxYfvTw7NJSdL5/exec?action=getStaffNames');
-    
-    // ตรวจสอบการตอบกลับจากเซิร์ฟเวอร์
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    // แปลงข้อมูลที่ได้จาก response เป็น JSON
-    const result = await response.json();
-
-    // ตรวจสอบว่า result.success เป็น true และ names มีข้อมูลที่ถูกต้อง
-    if (result.success && Array.isArray(result.staffNames)) {
-      const staffSelect = document.getElementById('staff');
-      staffSelect.innerHTML = '<option value="">-- เลือกพนักงาน --</option>';  // ลบ option เดิมออก
-
-      // ใส่ชื่อพนักงานลงใน <select>
-      result.staffNames.forEach(name => {
-        const option = document.createElement('option');
-        option.value = name;
-        option.textContent = name;
-        staffSelect.appendChild(option);
-      });
-    } else {
-      throw new Error('ไม่พบข้อมูลชื่อพนักงาน');
-    }
-  } catch (error) {
-    alert('เกิดข้อผิดพลาดในการโหลดข้อมูล: ' + error.message);
-  }
-}
-
-        loadStaffNames();
 
         async function checkStaff() {
   const date = document.getElementById('current-date').value;
   const staffName = document.getElementById('staff').value;
 
-  if (!staffName) {
-    alert('กรุณาเลือกชื่อพนักงาน');
-    return;
-  }
+  if (!staffName || staffName === 'ไม่พบชื่อพนักงาน') {
+        alert('ไม่พบชื่อพนักงานในระบบ');
+        return;
+    }
 
   document.getElementById('loading-progress').style.display = 'block';
   document.getElementById('result-message').textContent = '';
