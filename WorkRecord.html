@@ -58,31 +58,29 @@
 }
 
 .progress {
-  width: 134.4px;
-  height: 24.6px;
-  border-radius: 22.4px;
-  color: #bb463C;
-  border: 2.2px solid;
-  position: relative;
-  margin: 0 auto;
-  display: none; /* ซ่อนไว้ก่อน */
-}
-
-.progress::before {
-  content: "";
-  position: absolute;
-  margin: 2.2px;
-  inset: 0 100% 0 0;
-  border-radius: inherit;
-  background: currentColor;
-  animation: progress-pf82op 2s infinite;
-}
-
-@keyframes progress-pf82op {
-  100% {
-    inset: 0;
-  }
-}
+            width: 134.4px;
+            height: 24.6px;
+            border-radius: 22.4px;
+            color: #bb463C;
+            border: 2.2px solid;
+            position: relative;
+            margin: 0 auto;
+            display: none;
+        }
+        .progress::before {
+            content: "";
+            position: absolute;
+            margin: 2.2px;
+            inset: 0 100% 0 0;
+            border-radius: inherit;
+            background: currentColor;
+            animation: progress-pf82op 2s infinite;
+        }
+        @keyframes progress-pf82op {
+            100% {
+                inset: 0;
+            }
+        }
         
         .message {
             font-size: 1.5em; /* ปรับขนาดฟอนต์ */
@@ -104,9 +102,6 @@
             .message {
                 font-size: 1.2em; /* ปรับขนาดฟอนต์ให้เล็กลง */
             }
-            .progress {
-                width: 80px; /* ปรับขนาดแอนิเมชั่นให้เล็กลง */
-                height: 16px; /* ปรับขนาดแอนิเมชั่นให้เล็กลง */
             }
         }
            #otp-input {
@@ -233,33 +228,62 @@
     input.addEventListener('keydown', handleKeyDown); // เพิ่มการจัดการปุ่มลบ
   });
 });
-        // ตรวจสอบพิกัด
-        navigator.geolocation.getCurrentPosition(position => {
-            const userLat = position.coords.latitude;
-            const userLong = position.coords.longitude;
-            const storeLat = 18.78093688888478; 
-            const storeLong = 100.74660735424656;
-            const radius = 50; // เมตร
-
-            // คำนวณระยะห่าง
-            const distance = getDistance(userLat, userLong, storeLat, storeLong);
-
-            // ซ่อนแอนิเมชั่น loading
-            document.getElementById('loadingStatus').style.display = 'none';
-
-            if (distance <= radius) {
-        document.getElementById('message').innerText = 'พิกัดถูกต้อง กำลังเข้าสู่ระบบ';
         
-        
-    } else {
-        document.getElementById('message').innerText = 'พิกัดของคุณไม่ถูกต้อง';
-    }
-}, error => {
-    console.error('Error:', error);
-    // ซ่อนแอนิเมชั่น loading
-    document.getElementById('loadingStatus').style.display = 'none';
-    document.getElementById('message').innerText = 'เกิดข้อผิดพลาดในการตรวจสอบพิกัด';
-});
+function checkStaff() {
+    const otpInputs = document.querySelectorAll('#otp-input input[type="number"]');
+    const otp = Array.from(otpInputs).map(input => input.value).join('');
+    const apiUrl = 'https://script.google.com/macros/s/AKfycbweYG6qmnS7OO-dsEDzObpK2uFE684zcd_gaKp2nssnpIN6QnT3KA6hucw1B4z5CVh4/exec'; // แทนที่ด้วย URL ที่ได้จาก Google Apps Script
+    
+    // แสดงแถบ progress
+    document.getElementById('loading-progress').style.display = 'block';
+    
+
+    fetch(`${apiUrl}?action=checkOTP&otp=${otp}`)
+        .then(response => response.text())
+        .then(data => {
+        // ซ่อนแถบ progress
+        document.querySelector('.progress').style.display = 'none';
+
+            document.getElementById('message').innerText = data;
+        // หาก LOGIN สำเร็จ (สมมติว่า data มีข้อความ "Login successful")
+            if (data.includes("Hello")) {
+                // แสดงข้อความ "GPS Checking .."
+                document.getElementById('message').innerText += "\nGPS Checking ..";
+
+                // ตรวจสอบพิกัด
+                navigator.geolocation.getCurrentPosition(position => {
+                    const userLat = position.coords.latitude;
+                    const userLong = position.coords.longitude;
+                    const storeLat = 18.78093688888478; 
+                    const storeLong = 100.74660735424656;
+                    const radius = 50; // เมตร
+
+                    // คำนวณระยะห่าง
+                    const distance = getDistance(userLat, userLong, storeLat, storeLong);
+
+                    if (distance <= radius) {
+                        document.getElementById('message').innerText += "\nพิกัดถูกต้อง กำลังเข้าสู่ระบบ";
+                        
+                        // หน่วงเวลา 3 วินาที แล้วรีไดเรก
+                        setTimeout(() => {
+                            window.location.href = "https://tigerwhiteline.github.io/BackOffice/OnlineClocking.html";
+                        }, 3000);
+                    } else {
+                        document.getElementById('message').innerText += "\nพิกัดของคุณไม่ถูกต้อง ไม่สามารถเข้าสู่ระบบได้";
+                    }
+                }, error => {
+                    console.error('Error:', error);
+                    document.getElementById('message').innerText += "\nเกิดข้อผิดพลาดในการตรวจสอบพิกัด";
+                });
+            }
+        })
+        .catch(error => {
+        // ซ่อนแถบ progress และแสดงข้อผิดพลาด
+          document.getElementById('loading-progress').style.display = 'none';
+            console.error('Error:', error);
+            document.getElementById('message').innerText = 'เกิดข้อผิดพลาดในการตรวจสอบ OTP';
+        });
+}
 
 // ฟังก์ชันคำนวณระยะห่าง
 function getDistance(lat1, lon1, lat2, lon2) {
@@ -277,30 +301,6 @@ function getDistance(lat1, lon1, lat2, lon2) {
 // ฟังก์ชันแปลงองศาเป็นเรเดียน
 function deg2rad(deg) {
     return deg * (Math.PI / 180);
-}
-function checkStaff() {
-    const otpInputs = document.querySelectorAll('#otp-input input[type="number"]');
-    const otp = Array.from(otpInputs).map(input => input.value).join('');
-    const apiUrl = 'https://script.google.com/macros/s/AKfycbweYG6qmnS7OO-dsEDzObpK2uFE684zcd_gaKp2nssnpIN6QnT3KA6hucw1B4z5CVh4/exec'; // แทนที่ด้วย URL ที่ได้จาก Google Apps Script
-    
-    // แสดงแถบ progress
-    document.getElementById('loading-progress').style.display = 'block';
-    
-
-    fetch(`${apiUrl}?action=checkOTP&otp=${otp}`)
-        .then(response => response.text())
-        .then(data => {
-        // ซ่อนแถบ progress
-        document.querySelector('.progress').style.display = 'none';
-
-            document.getElementById('message').innerText = data;
-        })
-        .catch(error => {
-        // ซ่อนแถบ progress และแสดงข้อผิดพลาด
-          document.getElementById('loading-progress').style.display = 'none';
-            console.error('Error:', error);
-            document.getElementById('message').innerText = 'เกิดข้อผิดพลาดในการตรวจสอบ OTP';
-        });
 }
     </script>
 </body>
