@@ -227,7 +227,7 @@
       staffName,
     });
 
-    const response = await fetch(`https://script.google.com/macros/s/AKfycbxHT6CNswOCmzjX_pcYaQJ9FUv6MunbwtcnYE3vGk4r5KG2ldHc53mMR-S-ufvdLCe8/exec?${query}`, {
+    const response = await fetch(`https://script.google.com/macros/s/AKfycbzQsNQXOvc4vjok-PgoAc9NTg6LxqLCXtpgr35-QLgoYuNem-iNMp9c631VJsRUGRzE/exec?${query}`, {
       method: 'GET',
     });
 
@@ -276,7 +276,6 @@
             const canvas = document.getElementById('snapshot');
             const capturedImage = document.getElementById('captured-image');
             const locationInfo = document.getElementById('location-info');
-            const locationInfo2 = document.getElementById('location-info');
             const captureButton = document.getElementById('capture-button');
             const submitButton = document.getElementById('submit-button');
 
@@ -326,9 +325,9 @@
                         ctx.fillText(`Lat: ${latitude}`, 20, canvas.height - lineHeight * 2);
                         ctx.fillText(`Lon: ${longitude}`, 20, canvas.height - lineHeight * 1);
 
-                        locationInfo.textContent = `วันที่และเวลา: ${timestamp} | พิกัด: ละติจูด ${latitude} | ลองติจูด ${longitude}`;
+                        locationInfo.textContent = `${timestamp}`;
                         locationInfo.style.display = 'none';
-                        locationInfo2.textContent = `วันที่และเวลา: ${timestamp} | พิกัด: ละติจูด ${latitude} | ลองติจูด ${longitude}`;
+                        
 
                         capturedImage.src = canvas.toDataURL('image/png');
                         capturedImage.style.display = 'block';
@@ -368,7 +367,7 @@
     document.getElementById('result-message').style.display = 'none';
 
     // 4. ตั้งค่า URL ของ Google Apps Script
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbxHT6CNswOCmzjX_pcYaQJ9FUv6MunbwtcnYE3vGk4r5KG2ldHc53mMR-S-ufvdLCe8/exec";
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbzQsNQXOvc4vjok-PgoAc9NTg6LxqLCXtpgr35-QLgoYuNem-iNMp9c631VJsRUGRzE/exec";
     console.log("ส่งข้อมูลไปยัง:", webAppUrl);
 
     // 5. เตรียมข้อมูลสำหรับส่ง
