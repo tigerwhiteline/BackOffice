@@ -270,6 +270,17 @@
                     alert('ไม่สามารถเปิดกล้องได้: ' + err.message);
                 });
         }
+    
+function getDistanceFromLatLonInMeters(lat1, lon1, lat2, lon2) {
+    const R = 6371000; // รัศมีของโลก (เมตร)
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c; // ระยะทางเป็นเมตร
+}
 
         function captureImage() {
             const video = document.getElementById('camera-stream');
@@ -291,6 +302,8 @@
                 navigator.geolocation.getCurrentPosition(
                     position => {
                         const { latitude, longitude } = position.coords;
+
+
                         // แปลงวันที่และเวลา
                         const options = {
                           year: 'numeric',
@@ -349,77 +362,83 @@
         document.getElementById('capture-button').addEventListener('click', captureImage);
 
     async function submitData() {
-    // 1. ดึงข้อมูลจากฟอร์ม
     const capturedImage = document.getElementById('captured-image').src;
     const staffName = document.getElementById('staff').value;
     const timestamp = document.getElementById('location-info').textContent;
     const statusMessage = document.getElementById('result-message').textContent;
 
-    // 2. ตรวจสอบข้อมูลครบถ้วน
     if (!capturedImage || !staffName || !timestamp) {
-        alert('กรุณาถ่ายภาพและเลือกชื่อพนักงานก่อนส่งข้อมูล');
+        document.getElementById('result-message').textContent = 'กรุณาถ่ายภาพและเลือกชื่อพนักงานก่อนส่งข้อมูล';
+        document.getElementById('result-message').style.color = 'red';
         return;
     }
 
-    // 3. ปุ่มกด Submit และแสดงสถานะ Loading
     document.getElementById('submit-button').style.display = 'none';
     document.getElementById('loading-animation').style.display = 'block';
     document.getElementById('result-message').style.display = 'none';
 
-    // 4. ตั้งค่า URL ของ Google Apps Script
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbxyDeR-1sn_X9hqbyDtXlIdF5PcZ1jiv83xNoaMmG23LgUjTiyJF3J12twgSpfWrBA5/exec";
-    console.log("ส่งข้อมูลไปยัง:", webAppUrl);
+    // 📍 พิกัดของร้าน
+    const storeLatitude = 18.78859100167684;
+    const storeLongitude = 100.77794297445044;
+    
+    // ตรวจสอบพิกัด GPS
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+            const userLat = position.coords.latitude;
+            const userLon = position.coords.longitude;
+            const distance = getDistanceFromLatLonInMeters(userLat, userLon, storeLatitude, storeLongitude);
 
-    // 5. เตรียมข้อมูลสำหรับส่ง
-    const requestData = {
-        capturedImage,
-        staffName,
-        timestamp,
-        status: statusMessage.includes("Clock In") ? "Clock In" : "Clock Out",
-    };
+            console.log(`ระยะห่างจากร้าน: ${distance.toFixed(2)} เมตร`);
 
-    // 6. ใช้ Fetch API ส่งข้อมูล
-  fetch(webAppUrl, {
-        method: 'POST',
-        mode: 'cors',
-        headers: {    
-            'Content-Type': 'text/plain' // Crucial! 'text/plain' 
-        },
-        body: JSON.stringify(requestData), // แปลงข้อมูลเป็น JSON String
-    })
-    .then((response) => {
-        // 7. ตรวจสอบสถานะการตอบกลับ
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then((data) => {
-        // 8. ประมวลผลผลลัพธ์สำเร็จ
-        console.log("ผลลัพธ์:", data);
-        document.getElementById('loading-animation').style.display = 'none';
-        document.getElementById('result-message').style.display = 'block';
+            if (distance > 100) {
+                // อยู่ไกลเกิน 100 เมตร ❌
+                document.getElementById('loading-animation').style.display = 'none';
+                document.getElementById('result-message').style.display = 'block';
+                document.getElementById('result-message').textContent = "พิกัด GPS ไม่ถูกต้อง! กรุณาตรวจสอบตำแหน่งของคุณ";
+                document.getElementById('result-message').style.color = 'red';
+                return;
+            }
 
-        if (data.success) {
-            // 9. แสดงข้อความสำเร็จแ
-            document.getElementById('result-message').textContent = data.message;
-            document.getElementById('result-message').style.color = 'green';
-        } else {
-            // 10. แสดงข้อความผิดพลาด
-            document.getElementById('result-message').textContent = `เกิดข้อผิดพลาด: ${data.message}`;
+            // ✅ อยู่ในระยะ 100 เมตร → ส่งข้อมูล
+            const webAppUrl = "https://script.google.com/macros/s/AKfycbxyDeR-1sn_X9hqbyDtXlIdF5PcZ1jiv83xNoaMmG23LgUjTiyJF3J12twgSpfWrBA5/exec";
+            const requestData = {
+                capturedImage,
+                staffName,
+                timestamp,
+                status: statusMessage.includes("Clock In") ? "Clock In" : "Clock Out",
+            };
+
+            fetch(webAppUrl, {
+                method: 'POST',
+                mode: 'cors',
+                headers: { 'Content-Type': 'text/plain' },
+                body: JSON.stringify(requestData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('loading-animation').style.display = 'none';
+                document.getElementById('result-message').style.display = 'block';
+                document.getElementById('result-message').textContent = data.message;
+                document.getElementById('result-message').style.color = data.success ? 'green' : 'red';
+            })
+            .catch(error => {
+                document.getElementById('loading-animation').style.display = 'none';
+                document.getElementById('result-message').style.display = 'block';
+                document.getElementById('result-message').textContent = "เชื่อมต่อเซิร์ฟเวอร์ไม่สำเร็จ";
+                document.getElementById('result-message').style.color = 'red';
+            });
+
+        }, error => {
+            document.getElementById('loading-animation').style.display = 'none';
+            document.getElementById('result-message').textContent = "ไม่สามารถดึงข้อมูลพิกัดได้";
             document.getElementById('result-message').style.color = 'red';
-        }
-    })
-    .catch((error) => {
-        // 11. จัดการข้อผิดพลาดเครือข่าย
-        console.error("ข้อผิดพลาด:", error);
+        });
+    } else {
         document.getElementById('loading-animation').style.display = 'none';
-        document.getElementById('result-message').style.display = 'block';
-        document.getElementById('result-message').textContent = "เชื่อมต่อเซิร์ฟเวอร์ไม่สำเร็จ";
+        document.getElementById('result-message').textContent = "เบราว์เซอร์ของคุณไม่รองรับ Geolocation API";
         document.getElementById('result-message').style.color = 'red';
-    });
+    }
 }
-
 
 
     </script>
