@@ -227,7 +227,7 @@
       staffName,
     });
 
-    const response = await fetch(`https://script.google.com/macros/s/AKfycbxyDeR-1sn_X9hqbyDtXlIdF5PcZ1jiv83xNoaMmG23LgUjTiyJF3J12twgSpfWrBA5/exec?${query}`, {
+    const response = await fetch(`https://script.google.com/macros/s/AKfycbz-iytDzvpEsB5KIs5zhEBwcxSynblDTT4yw_VOwGtWCEf_uCx1edJ2Y0EbsXiGB3hv/exec?${query}`, {
       method: 'GET',
     });
 
@@ -378,8 +378,8 @@ function getDistanceFromLatLonInMeters(lat1, lon1, lat2, lon2) {
     document.getElementById('result-message').style.display = 'none';
 
     // 📍 พิกัดของร้าน
-    const storeLatitude = 18.780909117608317; 
-    const storeLongitude = 100.7465599819698;
+    const storeLatitude = 18.788494751882478;  
+    const storeLongitude = 100.77788501385307;
     
     // ตรวจสอบพิกัด GPS
     if (navigator.geolocation) {
@@ -390,8 +390,8 @@ function getDistanceFromLatLonInMeters(lat1, lon1, lat2, lon2) {
 
             console.log(`ระยะห่างจากร้าน: ${distance.toFixed(2)} เมตร`);
 
-            if (distance > 100) {
-                // อยู่ไกลเกิน 100 เมตร ❌
+            if (distance > 30) {
+                // อยู่ไกลเกิน 30 เมตร ❌
                 document.getElementById('loading-animation').style.display = 'none';
                 document.getElementById('result-message').style.display = 'block';
                 document.getElementById('result-message').textContent = "พิกัด GPS ไม่ถูกต้อง! กรุณาตรวจสอบตำแหน่งของคุณ";
@@ -399,8 +399,8 @@ function getDistanceFromLatLonInMeters(lat1, lon1, lat2, lon2) {
                 return;
             }
 
-            // ✅ อยู่ในระยะ 100 เมตร → ส่งข้อมูล
-            const webAppUrl = "https://script.google.com/macros/s/AKfycbxyDeR-1sn_X9hqbyDtXlIdF5PcZ1jiv83xNoaMmG23LgUjTiyJF3J12twgSpfWrBA5/exec";
+            // ✅ อยู่ในระยะ 30 เมตร → ส่งข้อมูล
+            const webAppUrl = "https://script.google.com/macros/s/AKfycbz-iytDzvpEsB5KIs5zhEBwcxSynblDTT4yw_VOwGtWCEf_uCx1edJ2Y0EbsXiGB3hv/exec";
             const requestData = {
                 capturedImage,
                 staffName,
