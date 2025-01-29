@@ -227,7 +227,7 @@
       staffName,
     });
 
-    const response = await fetch(`https://script.google.com/macros/s/AKfycbwT9iJM8pmyduSH8RVGLqNcLwgz20cO97QKIW9X7N2ayU_RB3kkDy1LgmQo3gGdt7vM/exec?${query}`, {
+    const response = await fetch(`https://script.google.com/macros/s/AKfycbz-5MyEoxDt_qxEVaASWWxDt_RicQyAjR9ROzRYLhF_nj09iUEzPD7-f44yxBS6cDj2/exec?${query}`, {
       method: 'GET',
     });
 
@@ -367,7 +367,7 @@
     document.getElementById('result-message').style.display = 'none';
 
     // 4. ตั้งค่า URL ของ Google Apps Script
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbwT9iJM8pmyduSH8RVGLqNcLwgz20cO97QKIW9X7N2ayU_RB3kkDy1LgmQo3gGdt7vM/exec";
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbz-5MyEoxDt_qxEVaASWWxDt_RicQyAjR9ROzRYLhF_nj09iUEzPD7-f44yxBS6cDj2/exec";
     console.log("ส่งข้อมูลไปยัง:", webAppUrl);
 
     // 5. เตรียมข้อมูลสำหรับส่ง
@@ -383,7 +383,7 @@
         method: 'POST',
         mode: 'cors',
         headers: {    
-            'Content-Type': 'text/Plain' // Crucial! 'text/plain' 
+            'Content-Type': 'application/json' // Crucial! 'text/plain' 
         },
         body: JSON.stringify(requestData), // แปลงข้อมูลเป็น JSON String
     })
