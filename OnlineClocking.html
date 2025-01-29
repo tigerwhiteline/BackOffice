@@ -276,6 +276,7 @@
             const canvas = document.getElementById('snapshot');
             const capturedImage = document.getElementById('captured-image');
             const locationInfo = document.getElementById('location-info');
+            const locationInfo2 = document.getElementById('location-info');
             const captureButton = document.getElementById('capture-button');
             const submitButton = document.getElementById('submit-button');
 
@@ -327,6 +328,7 @@
 
                         locationInfo.textContent = `วันที่และเวลา: ${timestamp} | พิกัด: ละติจูด ${latitude} | ลองติจูด ${longitude}`;
                         locationInfo.style.display = 'none';
+                        locationInfo2.textContent = `วันที่และเวลา: ${timestamp} | พิกัด: ละติจูด ${latitude} | ลองติจูด ${longitude}`;
 
                         capturedImage.src = canvas.toDataURL('image/png');
                         capturedImage.style.display = 'block';
@@ -351,7 +353,7 @@
     // 1. ดึงข้อมูลจากฟอร์ม
     const capturedImage = document.getElementById('captured-image').src;
     const staffName = document.getElementById('staff').value;
-    const timestamp = `${datePart}, ${timePart}`;
+    const timestamp = document.getElementById('location-info').textContent;
     const statusMessage = document.getElementById('result-message').textContent;
 
     // 2. ตรวจสอบข้อมูลครบถ้วน
