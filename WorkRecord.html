@@ -254,7 +254,7 @@
 function checkStaff() {
     const otpInputs = document.querySelectorAll('#otp-input input[type="number"]');
     const otp = Array.from(otpInputs).map(input => input.value).join('');
-    const apiUrl = 'https://script.google.com/macros/s/AKfycbwnm59n7_XDXrAn2L9E1flxQ8cIWWdjNVhXoOm4wUAORz5bDFzMZ-p2yQs1MBDzLQM/exec'; // แทนที่ด้วย URL ที่ได้จาก Google Apps Script
+    const apiUrl = 'https://script.google.com/macros/s/AKfycbz-iytDzvpEsB5KIs5zhEBwcxSynblDTT4yw_VOwGtWCEf_uCx1edJ2Y0EbsXiGB3hv/exec'; // แทนที่ด้วย URL ที่ได้จาก Google Apps Script
     const messageElement = document.getElementById('message');
     
 
@@ -289,9 +289,9 @@ function checkStaff() {
                 navigator.geolocation.getCurrentPosition(position => {
                     const userLat = position.coords.latitude;
                     const userLong = position.coords.longitude;
-                    const storeLat = 18.78093688888478; 
-                    const storeLong = 100.74660735424656;
-                    const radius = 50; // เมตร
+                    const storeLat = 18.788494751860412;  
+                    const storeLong = 100.7778984840429;
+                    const radius = 30; // เมตร
 
                     // คำนวณระยะห่าง
                     const distance = getDistance(userLat, userLong, storeLat, storeLong);
