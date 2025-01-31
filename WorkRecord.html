@@ -289,9 +289,9 @@ function checkStaff() {
                 navigator.geolocation.getCurrentPosition(position => {
                     const userLat = position.coords.latitude;
                     const userLong = position.coords.longitude;
-                    const storeLat = 18.788494751860412;  
-                    const storeLong = 100.7778984840429; // TWL 18.788494751860412, 100.7778984840429
-                    const radius = 20; // เมตร
+                    const storeLat = 18.788491750982413;  
+                    const storeLong = 100.77787899374945; // TWL 18.788491750982413, 100.77787899374945
+                    const radius = 50; // เมตร
 
                     // คำนวณระยะห่าง
                     const distance = getDistance(userLat, userLong, storeLat, storeLong);
