@@ -242,8 +242,9 @@
     resultDiv.textContent = result.message;
     
 
-    if (result.message === "กรุณา Clock In" || result.message === "กรุณา Clock Out") {
-      initializeCamera(); // ฟังก์ชันเปิดกล้อง (ต้องมีการนิยามไว้)
+    if (result.message === "กรุณา Clock In" || result.message === "กรุณา Clock Out เมื่อวาน" || result.message === "กรุณา Clock Out วันนี้") {
+    initializeCamera(); // ฟังก์ชันเปิดกล้อง (ต้องมีการนิยามไว้)
+}
     } else {
       document.getElementById('camera-section').style.display = 'none'; // ซ่อนกล้องหากไม่ต้องใช้งาน
     }
